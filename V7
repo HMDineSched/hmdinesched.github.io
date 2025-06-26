@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fellowship Square Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f9f9fb;
+    --text: #1a1a1a;
+    --accent: #3b82f6;
+    --border: #ddd;
+    --muted: #777;
+    --card: #fff;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  #week-label {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
+  select,
+  input[type="date"] {
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  .quick-view {
+    border: 1px solid var(--border);
+    background-color: var(--card);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .quick-view strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  #quick-view-list {
+    padding-left: 1rem;
+    margin: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 3rem;
+    background-color: var(--card);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  caption {
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: left;
+    padding: 0.5rem;
+    background-color: var(--accent);
+    color: #fff;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+
+  th {
+    background-color: #f0f4f8;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) td {
+    background-color: #fafafa;
+  }
+
+  tr:hover td {
+    background-color: #eef6ff;
+  }
+
+  @media (max-width: 768px) {
+    .controls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    table {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Fellowship Square – Historic Mesa</h1>
+<div id="week-label"></div>
+
+<div class="controls">
+  <label for="date-picker">Date:
+    <input type="date" id="date-picker" />
+  </label>
+
+  <label for="location-select">Location:
+    <select id="location-select">
+      <option value="East" selected>East</option>
+      <option value="West/Grand">West/Grand</option>
+      <option value="Oasis">Oasis</option>
+      <option value="tbd">tbd</option>
+    </select>
+  </label>
+</div>
+
+<div class="quick-view" id="quick-view">
+  <strong>Quick View</strong>
+  <ul id="quick-view-list"></ul>
+</div>
+
+<div id="tables-container"></div>
+
+<!-- Same script from before follows... -->
+<script>
+// ... Insert the JavaScript from previous answer here (unchanged) ...
+</script>
+
+</body>
+</html>
