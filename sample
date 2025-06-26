@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fellowship Square - Historic Mesa Schedule</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 1rem;
+    background: #fefefe;
+    color: #222;
+  }
+  header {
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  #date-picker {
+    font-size: 1rem;
+    padding: 0.3rem;
+  }
+  .location-section {
+    margin-top: 2rem;
+  }
+  .location-section h2 {
+    background: #004d99;
+    color: white;
+    padding: 0.3rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+  th, td {
+    border: 1px solid #999;
+    padding: 0.3rem 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  th {
+    background: #ddd;
+  }
+  tbody tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+  .quick-view {
+    background: #eef6fc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+  }
+  .quick-view h3 {
+    margin-top: 0;
+  }
+  .quick-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  .quick-list li {
+    margin-bottom: 0.3rem;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Fellowship Square - Historic Mesa Schedule</h1>
+  <label for="date-picker">Select Week Start Date (Arizona time): </label>
+  <input type="date" id="date-picker" />
+  <div id="week-label" style="margin-top:0.5rem; font-weight:bold;">Week of 2025-06-22</div>
+</header>
+
+<section class="location-section" id="east">
+  <h2>East</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sun<br>6/22</th>
+        <th>Mon<br>6/23</th>
+        <th>Tue<br>6/24</th>
+        <th>Wed<br>6/25</th>
+        <th>Thu<br>6/26</th>
+        <th>Fri<br>6/27</th>
+        <th>Sat<br>6/28</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Nathan</td>
+        <td>6:30a–3p</td>
+        <td></td>
+        <td>10a–CL</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Melissa</td>
+        <td></td>
+        <td>2–10</td>
+        <td></td>
+        <td></td>
+        <td>6:30a–3p</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>December</td>
+        <td></td>
+        <td></td>
+        <td>10a–CL</td>
+        <td></td>
+        <td></td>
+        <td>2–10</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="location-section" id="westgrand">
+  <h2>West/Grand</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sun<br>6/22</th>
+        <th>Mon<br>6/23</th>
+        <th>Tue<br>6/24</th>
+        <th>Wed<br>6/25</th>
+        <th>Thu<br>6/26</th>
+        <th>Fri<br>6/27</th>
+        <th>Sat<br>6/28</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Brandon</td>
+        <td>10a–CL</td>
+        <td>6:30a–3p</td>
+        <td>BUFFET 10a–2p</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Jerry</td>
+        <td></td>
+        <td></td>
+        <td>West 10a–2p</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>2–10</td>
+      </tr>
+      <tr>
+        <td>Marcial</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>RUN 2–10</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="location-section" id="oasis">
+  <h2>Oasis</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sun<br>6/22</th>
+        <th>Mon<br>6/23</th>
+        <th>Tue<br>6/24</th>
+        <th>Wed<br>6/25</th>
+        <th>Thu<br>6/26</th>
+        <th>Fri<br>6/27</th>
+        <th>Sat<br>6/28</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>December</td>
+        <td>Oasis 6:30a–3p</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Eli</td>
+        <td></td>
+        <td>Oasis 2–10</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="location-section" id="tbd">
+  <h2>tbd</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Sun<br>6/22</th>
+        <th>Mon<br>6/23</th>
+        <th>Tue<br>6/24</th>
+        <th>Wed<br>6/25</th>
+        <th>Thu<br>6/26</th>
+        <th>Fri<br>6/27</th>
+        <th>Sat<br>6/28</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lisa</td>
+        <td></td>
+        <td></td>
+        <td>11a–4p</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="quick-view">
+  <h3>Quick View: East on Tue 6/24</h3>
+  <ul class="quick-list">
+    <li><strong>Nathan:</strong> 10a–Close</li>
+    <li><strong>December:</strong> 10a–Close</li>
+  </ul>
+</section>
+
+<script>
+  function getAZTodayISO() {
+    const now = new Date();
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const azTime = new Date(utcTime - (7 * 60 * 60000));
+    return azTime.toISOString().split('T')[0];
+  }
+
+  // Set date picker default value to Arizona date
+  document.addEventListener('DOMContentLoaded', () => {
+    const picker = document.getElementById('date-picker');
+    picker.value = getAZTodayISO();
+
+    // Set initial week label to Monday of the current week for demo
+    // Here we hardcode Monday 2025-06-22 as example
+    document.getElementById('week-label').textContent = 'Week of 2025-06-22';
+  });
+</script>
+</body>
+</html>
