@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fellowship Square Schedule</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 1rem; }
+  h1 { margin-bottom: 0.2rem; }
+  .controls { margin-bottom: 1rem; }
+  label { margin-right: 0.5rem; }
+  select, input[type="date"] { margin-right: 1rem; }
+  table { border-collapse: collapse; margin-bottom: 2rem; width: 100%; max-width: 900px; }
+  th, td { border: 1px solid #ccc; padding: 0.25rem 0.5rem; text-align: center; }
+  th { background: #eee; }
+  .quick-view { border: 1px solid #999; padding: 0.5rem; max-width: 900px; margin-bottom: 2rem; background: #f9f9f9; }
+</style>
+</head>
+<body>
+
+<h1>Fellowship Square - Historic Mesa</h1>
+<div id="week-label"></div>
+
+<div class="controls">
+  <label for="date-picker">Select Date:</label>
+  <input type="date" id="date-picker" />
+  
+  <label for="location-select">Select Location:</label>
+  <select id="location-select">
+    <option value="East" selected>East</option>
+    <option value="West/Grand">West/Grand</option>
+    <option value="Oasis">Oasis</option>
+    <option value="tbd">tbd</option>
+  </select>
+</div>
+
+<div class="quick-view" id="quick-view">
+  <strong>Quick View:</strong>
+  <ul id="quick-view-list"></ul>
+</div>
+
+<div id="tables-container"></div>
+
+<script>
+// Sample clean schedule JSON data, fully parsed and normalized
+// Each item: { name, date: "YYYY-MM-DD", time, location }
+const scheduleData = [
+  { name: "Nathan", date: "2025-06-23", time: "10a–3p", location: "East" },
+  { name: "Brandon", date: "2025-06-23", time: "3p–10p", location: "East" },
+  { name: "Jerry", date: "2025-06-24", time: "6:30a–3p", location: "East" },
+  { name: "Melissa", date: "2025-06-24", time: "10a–CL", location: "East" },
+  { name: "Megan", date: "2025-06-25", time: "10a–3p", location: "East" },
+  { name: "Lisa", date: "2025-06-25", time: "3p–CL", location: "East" },
+  { name: "Nico", date: "2025-06-26", time: "10a–3p", location: "East" },
+  { name: "Ellie", date: "2025-06-26", time: "3p–10p", location: "East" },
+
+  { name: "December", date: "2025-06-23", time: "9a–2p", location: "Oasis" },
+  { name: "Eli", date: "2025-06-24", time: "10a–3p", location: "Oasis" },
+  { name: "Marcial", date: "2025-06-25", time: "2p–9p", location: "Oasis" },
+
+  { name: "Unknown", date: "2025-06-23", time: "10a–3p", location: "tbd" },
+
+  { name: "Alex", date: "2025-06-23", time: "11a–4p", location: "West/Grand" },
+  { name: "Taylor", date: "2025-06-24", time: "2p–10p", location: "West/Grand" },
+  { name: "Jordan", date: "2025-06-25", time: "10a–3p", location: "West/Grand" },
+  { name: "Chris", date: "2025-06-26", time: "3p–CL", location: "West/Grand" }
+];
+
+// All known staff names for each location (can be extracted dynamically)
+const locations = ["East", "West/Grand", "Oasis", "tbd"];
+
+// Extract unique staff names per location
+function getStaffByLocation(data, location) {
+  const staffSet = new Set();
+  data.forEach(item => {
+    if (item.location === location) {
+      staffSet.add(item.name);
+    }
+  });
+  return Array.from(staffSet).sort();
+}
+
+// Get unique dates in schedule
+function getAllDates(data) {
+  const dateSet = new Set(data.map(item => item.date));
+  return Array.from(dateSet).sort();
+}
+
+// Get Monday for given date string (YYYY-MM-DD)
+function getMonday(dateStr) {
+  const d = new Date(dateStr + "T12:00:00-07:00"); // Arizona TZ offset -7 no DST
+  const day = d.getUTCDay();
+  const diff = (day === 0 ? -6 : 1) - day; // adjust Sunday (0) to previous Monday
+  d.setUTCDate(d.getUTCDate() + diff);
+  return d.toISOString().slice(0, 10);
+}
+
+// Format date as "DayAbbr MM/DD"
+function formatDateLabel(dateStr) {
+  const d = new Date(dateStr + "T12:00:00-07:00");
+  const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const dayAbbr = days[d.getUTCDay()];
+  const mm = (d.getUTCMonth()+1).toString().padStart(2,"0");
+  const dd = d.getUTCDate().toString().padStart(2,"0");
+  return `${dayAbbr} ${mm}/${dd}`;
+}
+
+// Build week range dates array (Sun-Sat) for a week anchored on Monday
+function buildWeekDates(mondayStr) {
+  const monday = new Date(mondayStr + "T12:00:00-07:00");
+  const dates = [];
+  // Sunday before Monday (monday - 1 day = Sunday)
+  const sunday = new Date(monday);
+  sunday.setUTCDate(sunday.getUTCDate() - 1);
+  for(let i=0; i<7; i++) {
+    const d = new Date(sunday);
+    d.setUTCDate(sunday.getUTCDate() + i);
+    dates.push(d.toISOString().slice(0,10));
+  }
+  return dates;
+}
+
+// Group schedule data by name -> date -> time
+function groupDataByNameDate(data) {
+  const grouped = {};
+  data.forEach(({name, date, time, location}) => {
+    if (!grouped[name]) grouped[name] = {};
+    grouped[name][date] = time;
+  });
+  return grouped;
+}
+
+// Render tables for each location
+function renderTables(data, mondayStr) {
+  const container = document.getElementById("tables-container");
+  container.innerHTML = "";
+  const weekDates = buildWeekDates(mondayStr);
+
+  locations.forEach(loc => {
+    // Staff for this location
+    const staff = getStaffByLocation(data, loc);
+    if(staff.length === 0) return;
+
+    const table = document.createElement("table");
+    const caption = document.createElement("caption");
+    caption.textContent = loc;
+    table.appendChild(caption);
+
+    // Header row with day labels
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    headerRow.appendChild(document.createElement("th")); // empty corner cell
+    weekDates.forEach(date => {
+      const th = document.createElement("th");
+      th.textContent = formatDateLabel(date);
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Body rows - one per staff
+    const tbody = document.createElement("tbody");
+    const grouped = groupDataByNameDate(data.filter(x => x.location === loc), loc);
+
+    staff.forEach(name => {
+      const tr = document.createElement("tr");
+      const nameCell = document.createElement("td");
+      nameCell.textContent = name;
+      tr.appendChild(nameCell);
+
+      weekDates.forEach(date => {
+        const td = document.createElement("td");
+        td.textContent = grouped[name] && grouped[name][date] ? grouped[name][date] : "";
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    container.appendChild(table);
+  });
+}
+
+// Populate quick view list for selected date and location
+function updateQuickView(data, date, location) {
+  const list = document.getElementById("quick-view-list");
+  list.innerHTML = "";
+
+  const filtered = data.filter(item => item.date === date && item.location === location);
+  if(filtered.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "(No shifts)";
+    list.appendChild(li);
+    return;
+  }
+
+  filtered.forEach(({name, time}) => {
+    const li = document.createElement("li");
+    li.textContent = `${name}: ${time}`;
+    list.appendChild(li);
+  });
+}
+
+// Get today's date in Arizona timezone (YYYY-MM-DD)
+function getTodayArizona() {
+  // Use system UTC + offset for AZ (UTC-7 no DST)
+  const now = new Date();
+  // Convert to UTC time first
+  const utc = new Date(now.getTime() + now.getTimezoneOffset()*60000);
+  // AZ is UTC-7
+  const azTime = new Date(utc.getTime() - 7*60*60000);
+  return azTime.toISOString().slice(0,10);
+}
+
+// Initialization
+function initialize() {
+  // Determine week Monday anchor
+  const today = getTodayArizona();
+  const monday = getMonday(today);
+
+  document.getElementById("week-label").textContent = `Week of ${monday}`;
+
+  // Set date picker default to today
+  const datePicker = document.getElementById("date-picker");
+  datePicker.value = today;
+
+  // Set location default to East
+  const locationSelect = document.getElementById("location-select");
+  locationSelect.value = "East";
+
+  // Render full tables once for the week
+  renderTables(scheduleData, monday);
+
+  // Update quick view on controls change
+  function updateView() {
+    const selectedDate = datePicker.value;
+    const selectedLocation = locationSelect.value;
+    updateQuickView(scheduleData, selectedDate, selectedLocation);
+  }
+
+  datePicker.addEventListener("change", updateView);
+  locationSelect.addEventListener("change", updateView);
+
+  updateView();
+}
+
+initialize();
+
+</script>
+
+</body>
+</html>
