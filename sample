@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HMDineSched — Sample Week</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 1rem;
+      background: #f8f9fa;
+      color: #222;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #2c3e50;
+    }
+    #quick-view-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      color: #34495e;
+    }
+    #filters {
+      margin: 1rem 0;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    label {
+      font-weight: 600;
+    }
+    select, input[type="date"] {
+      padding: 6px 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .roster-list {
+      background: white;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .roster-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    .roster-item:last-child {
+      border-bottom: none;
+    }
+    .roster-name {
+      font-weight: 500;
+    }
+    .roster-time {
+      font-family: monospace;
+      color: #555;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    th {
+      background-color: #2980b9;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+    tr:nth-child(even) {
+      background-color: #f4f6f8;
+    }
+    #last-updated {
+      margin-top: 2rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>HMDineSched — Front of House Schedule</h1>
+  <p>Sample week for Jerry & Nathan</p>
+
+  <div id="quick-view-title">Daily Roster View</div>
+  <div id="filters">
+    <label for="date-picker">Date:</label>
+    <input type="date" id="date-picker" />
+    <label for="location-picker">Location:</label>
+    <select id="location-picker">
+      <option value="East">East</option>
+      <option value="West/Grand">West/Grand</option>
+      <option value="All">All</option>
+    </select>
+  </div>
+
+  <div class="roster-list" id="quick-view-list">
+    <!-- Populated dynamically -->
+  </div>
+
+  <table id="full-schedule">
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>East</td><td>Jerry</td><td>2025-06-24</td><td>10am–6pm</td></tr>
+      <tr><td>East</td><td>Jerry</td><td>2025-06-25</td><td>10am–6pm</td></tr>
+      <tr><td>East</td><td>Jerry</td><td>2025-06-26</td><td>10am–6pm</td></tr>
+      <tr><td>East</td><td>Jerry</td><td>2025-06-27</td><td>10am–6pm</td></tr>
+      <tr><td>East</td><td>Jerry</td><td>2025-06-28</td><td>10am–6pm</td></tr>
+      <tr><td>West/Grand</td><td>Nathan</td><td>2025-06-26</td><td>11am–6pm</td></tr>
+      <tr><td>West/Grand</td><td>Nathan</td><td>2025-06-27</td><td>11am–6pm</td></tr>
+      <tr><td>West/Grand</td><td>Nathan</td><td>2025-06-28</td><td>11am–6pm</td></tr>
+      <tr><td>West/Grand</td><td>Nathan</td><td>2025-06-29</td><td>11am–4pm</td></tr>
+      <tr><td>West/Grand</td><td>Nathan</td><td>2025-06-30</td><td>11am–6pm</td></tr>
+    </tbody>
+  </table>
+
+  <p id="last-updated">Last updated: 2025-06-25</p>
+
+  <script>
+    const allEntries = [
+      { location: "East", name: "Jerry", date: "2025-06-24", time: "10am–6pm" },
+      { location: "East", name: "Jerry", date: "2025-06-25", time: "10am–6pm" },
+      { location: "East", name: "Jerry", date: "2025-06-26", time: "10am–6pm" },
+      { location: "East", name: "Jerry", date: "2025-06-27", time: "10am–6pm" },
+      { location: "East", name: "Jerry", date: "2025-06-28", time: "10am–6pm" },
+      { location: "West/Grand", name: "Nathan", date: "2025-06-26", time: "11am–6pm" },
+      { location: "West/Grand", name: "Nathan", date: "2025-06-27", time: "11am–6pm" },
+      { location: "West/Grand", name: "Nathan", date: "2025-06-28", time: "11am–6pm" },
+      { location: "West/Grand", name: "Nathan", date: "2025-06-29", time: "11am–4pm" },
+      { location: "West/Grand", name: "Nathan", date: "2025-06-30", time: "11am–6pm" },
+    ];
+
+    function updateQuickView() {
+      const date = document.getElementById('date-picker').value;
+      const location = document.getElementById('location-picker').value;
+      const list = document.getElementById('quick-view-list');
+      list.innerHTML = '';
+
+      const filtered = allEntries.filter(e =>
+        (location === 'All' || e.location === location) &&
+        e.date === date
+      );
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<p>No shifts scheduled for this view.</p>';
+        return;
+      }
+
+      for (const entry of filtered) {
+        const div = document.createElement('div');
+        div.className = 'roster-item';
+        div.innerHTML = `<span class="roster-name">${entry.name}</span><span class="roster-time">${entry.time}</span>`;
+        list.appendChild(div);
+      }
+    }
+
+    document.getElementById('date-picker').addEventListener('change', updateQuickView);
+    document.getElementById('location-picker').addEventListener('change', updateQuickView);
+
+    // Default to today in AZ time
+    function setToday() {
+      const now = new Date();
+      const azOffset = -7 * 60; // Arizona is always UTC-7
+      const local = new Date(now.getTime() + (now.getTimezoneOffset() + azOffset) * 60000);
+      const isoDate = local.toISOString().slice(0, 10);
+      document.getElementById('date-picker').value = isoDate;
+      updateQuickView();
+    }
+
+    setToday();
+  </script>
+</body>
+</html>
