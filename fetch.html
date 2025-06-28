@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fellowship Square – Historic Mesa Schedule</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2em;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    label {
+      margin-right: 0.5em;
+      font-weight: bold;
+    }
+    select, input[type="date"] {
+      margin: 0.5em 1em 1em 0;
+      padding: 0.4em;
+      font-size: 1em;
+    }
+    #quick-view {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin-bottom: 2em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #quick-view ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #quick-view li {
+      padding: 0.3em 0;
+    }
+    table {
+      width: 100%;
+      margin: 2em 0;
+      border-collapse: collapse;
+      background: white;
+    }
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+      text-align: left;
+      padding: 0.5em;
+      background-color: #3498db;
+      color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.6em;
+      text-align: left;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+    tr:nth-child(even) td {
+      background-color: #f9f9f9;
+    }
+    #controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Fellowship Square – Historic Mesa</h1>
+
+  <div id="controls">
+    <label for="date-picker">Date:</label>
+    <input type="date" id="date-picker" />
+
+    <label for="location-select">Location:</label>
+    <select id="location-select"></select>
+  </div>
+
+  <div id="week-label" style="font-size: 1.2em; font-weight: bold; margin-bottom: 1em;"></div>
+
+  <div id="quick-view">
+    <strong>Quick View</strong>
+    <ul id="quick-view-list"></ul>
+  </div>
+
+  <div id="tables-container"></div>
+
+  <script>
+  let scheduleData = [];
+
+  fetch('schedule.json')
+    .then(response => response.json())
+    .then(data => {
+      scheduleData = data;
+      initControls();
+      generateSchedule();
+    })
+    .catch(err => console.error('Error loading schedule.json:', err));
+</script>
+
+  <script>
+let scheduleData = [];
+
+function initControls() {
+  const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
+
+  const datePicker = document.getElementById("date-picker");
+  const today = new Date().toISOString().split("T")[0];
+  datePicker.innerHTML = "";
+  allDates.forEach(date => {
+    const option = document.createElement("option");
+    option.value = date;
+    option.textContent = date;
+    datePicker.appendChild(option);
+  });
+  datePicker.value = allDates.includes(today) ? today : allDates[0];
+  datePicker.addEventListener("change", generateSchedule);
+
+  const locationSelect = document.getElementById("location-select");
+  const locationSet = new Set(scheduleData.map(item => item.location));
+  locationSelect.innerHTML = "";
+  locationSet.forEach(loc => {
+    const option = document.createElement("option");
+    option.value = loc;
+    option.textContent = loc;
+    locationSelect.appendChild(option);
+  });
+  locationSelect.addEventListener("change", generateSchedule);
+}
+
+function getGroupedScheduleFor(date) {
+  const grouped = {};
+  scheduleData
+    .filter(item => item.date === date)
+    .forEach(({ name, role, time, location }) => {
+      if (!grouped[location]) grouped[location] = [];
+
+      let existing = grouped[location].find(entry => entry.name === name && entry.role === role);
+      if (!existing) {
+        existing = { name, role, shifts: [] };
+        grouped[location].push(existing);
+      }
+      existing.shifts.push(time);
+    });
+  return grouped;
+}
+
+function generateSchedule() {
+  const datePicker = document.getElementById("date-picker");
+  const locationSelect = document.getElementById("location-select");
+  const selectedDate = datePicker.value;
+  const selectedLocation = locationSelect.value;
+  const data = getGroupedScheduleFor(selectedDate);
+
+  const weekLabel = document.getElementById("week-label");
+  const quickViewList = document.getElementById("quick-view-list");
+  const tablesContainer = document.getElementById("tables-container");
+
+  weekLabel.textContent = `Schedule for ${selectedDate}`;
+  quickViewList.innerHTML = "";
+  tablesContainer.innerHTML = "";
+
+  if (data[selectedLocation] && data[selectedLocation].length > 0) {
+    data[selectedLocation].forEach(({ name, role, shifts }) => {
+      const li = document.createElement("li");
+      li.textContent = `${name} (${role}): ${shifts.join(", ")}`;
+      quickViewList.appendChild(li);
+    });
+  } else {
+    quickViewList.innerHTML = "<li>No shifts for selected location</li>";
+  }
+
+  Object.entries(data).forEach(([location, staffList]) => {
+    const table = document.createElement("table");
+
+    const caption = document.createElement("caption");
+    caption.textContent = location;
+    table.appendChild(caption);
+
+    const header = document.createElement("tr");
+    header.innerHTML = "<th>Name</th><th>Role</th><th>Shift(s)</th>";
+    table.appendChild(header);
+
+    staffList.forEach(({ name, role, shifts }) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${name}</td><td>${role}</td><td>${shifts.join("<br>")}</td>`;
+      table.appendChild(row);
+    });
+
+    tablesContainer.appendChild(table);
+  });
+}
+
+// Main load
+fetch('schedule.json')
+  .then(response => response.json())
+  .then(data => {
+    scheduleData = data;
+    initControls();
+    generateSchedule();
+  })
+  .catch(err => console.error('Error loading schedule.json:', err));
+</script>
+</body>
+</html>
