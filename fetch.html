@@ -99,118 +99,151 @@
   <script>
   let scheduleData = [];
 
-  fetch('schedule.json')
-    .then(response => response.json())
-    .then(data => {
-      scheduleData = data;
-      initControls();
-      generateSchedule();
-    })
-    .catch(err => console.error('Error loading schedule.json:', err));
-</script>
+  /**
+   * Initializes the date and location selection controls based on the fetched schedule data.
+   */
+  function initControls() {
+    const datePicker = document.getElementById("date-picker");
+    const locationSelect = document.getElementById("location-select");
 
-  <script>
-let scheduleData = [];
-
-function initControls() {
-  const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
-
-  const datePicker = document.getElementById("date-picker");
-  const today = new Date().toISOString().split("T")[0];
-  datePicker.innerHTML = "";
-  allDates.forEach(date => {
-    const option = document.createElement("option");
-    option.value = date;
-    option.textContent = date;
-    datePicker.appendChild(option);
-  });
-  datePicker.value = allDates.includes(today) ? today : allDates[0];
-  datePicker.addEventListener("change", generateSchedule);
-
-  const locationSelect = document.getElementById("location-select");
-  const locationSet = new Set(scheduleData.map(item => item.location));
-  locationSelect.innerHTML = "";
-  locationSet.forEach(loc => {
-    const option = document.createElement("option");
-    option.value = loc;
-    option.textContent = loc;
-    locationSelect.appendChild(option);
-  });
-  locationSelect.addEventListener("change", generateSchedule);
-}
-
-function getGroupedScheduleFor(date) {
-  const grouped = {};
-  scheduleData
-    .filter(item => item.date === date)
-    .forEach(({ name, role, time, location }) => {
-      if (!grouped[location]) grouped[location] = [];
-
-      let existing = grouped[location].find(entry => entry.name === name && entry.role === role);
-      if (!existing) {
-        existing = { name, role, shifts: [] };
-        grouped[location].push(existing);
-      }
-      existing.shifts.push(time);
+    // Populate Date Picker
+    const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
+    datePicker.innerHTML = ""; // Clear existing options
+    allDates.forEach(date => {
+      const option = document.createElement("option");
+      option.value = date;
+      option.textContent = date;
+      datePicker.appendChild(option);
     });
-  return grouped;
-}
 
-function generateSchedule() {
-  const datePicker = document.getElementById("date-picker");
-  const locationSelect = document.getElementById("location-select");
-  const selectedDate = datePicker.value;
-  const selectedLocation = locationSelect.value;
-  const data = getGroupedScheduleFor(selectedDate);
+    // Set default date to today if available, otherwise the first date
+    const today = new Date().toISOString().split("T")[0];
+    datePicker.value = allDates.includes(today) ? today : allDates[0];
+    datePicker.addEventListener("change", generateSchedule);
 
-  const weekLabel = document.getElementById("week-label");
-  const quickViewList = document.getElementById("quick-view-list");
-  const tablesContainer = document.getElementById("tables-container");
-
-  weekLabel.textContent = `Schedule for ${selectedDate}`;
-  quickViewList.innerHTML = "";
-  tablesContainer.innerHTML = "";
-
-  if (data[selectedLocation] && data[selectedLocation].length > 0) {
-    data[selectedLocation].forEach(({ name, role, shifts }) => {
-      const li = document.createElement("li");
-      li.textContent = `${name} (${role}): ${shifts.join(", ")}`;
-      quickViewList.appendChild(li);
+    // Populate Location Select
+    const locationSet = new Set(scheduleData.map(item => item.location));
+    locationSelect.innerHTML = ""; // Clear existing options
+    locationSet.forEach(loc => {
+      const option = document.createElement("option");
+      option.value = loc;
+      option.textContent = loc;
+      locationSelect.appendChild(option);
     });
-  } else {
-    quickViewList.innerHTML = "<li>No shifts for selected location</li>";
+    // Set default location if needed, otherwise the first one
+    if (locationSet.size > 0) {
+        locationSelect.value = Array.from(locationSet)[0];
+    }
+    locationSelect.addEventListener("change", generateSchedule);
   }
 
-  Object.entries(data).forEach(([location, staffList]) => {
-    const table = document.createElement("table");
+  /**
+   * Groups schedule data by location for a given date.
+   * @param {string} date - The date to filter the schedule by (e.g., "YYYY-MM-DD").
+   * @returns {Object} An object where keys are locations and values are arrays of staff details.
+   */
+  function getGroupedScheduleFor(date) {
+    const grouped = {};
+    scheduleData
+      .filter(item => item.date === date)
+      .forEach(({ name, role, time, location }) => {
+        if (!grouped[location]) grouped[location] = [];
 
-    const caption = document.createElement("caption");
-    caption.textContent = location;
-    table.appendChild(caption);
+        // Check if this name/role combination already exists for this location
+        let existing = grouped[location].find(entry => entry.name === name && entry.role === role);
+        if (!existing) {
+          existing = { name, role, shifts: [] };
+          grouped[location].push(existing);
+        }
+        existing.shifts.push(time); // Add the time to their shifts
+      });
+    return grouped;
+  }
 
-    const header = document.createElement("tr");
-    header.innerHTML = "<th>Name</th><th>Role</th><th>Shift(s)</th>";
-    table.appendChild(header);
+  /**
+   * Generates and displays the schedule based on the selected date and location.
+   */
+  function generateSchedule() {
+    const datePicker = document.getElementById("date-picker");
+    const locationSelect = document.getElementById("location-select");
+    const selectedDate = datePicker.value;
+    const selectedLocation = locationSelect.value;
+    const groupedData = getGroupedScheduleFor(selectedDate); // Use groupedData for all tables
 
-    staffList.forEach(({ name, role, shifts }) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `<td>${name}</td><td>${role}</td><td>${shifts.join("<br>")}</td>`;
-      table.appendChild(row);
+    const weekLabel = document.getElementById("week-label");
+    const quickViewList = document.getElementById("quick-view-list");
+    const tablesContainer = document.getElementById("tables-container");
+
+    weekLabel.textContent = `Schedule for ${selectedDate}`;
+    quickViewList.innerHTML = ""; // Clear previous quick view
+    tablesContainer.innerHTML = ""; // Clear previous tables
+
+    // Populate Quick View for the Selected Location
+    if (groupedData[selectedLocation] && groupedData[selectedLocation].length > 0) {
+      groupedData[selectedLocation].forEach(({ name, role, shifts }) => {
+        const li = document.createElement("li");
+        li.textContent = `${name} (${role}): ${shifts.join(", ")}`;
+        quickViewList.appendChild(li);
+      });
+    } else {
+      quickViewList.innerHTML = "<li>No shifts for the selected location on this date.</li>";
+    }
+
+    // Generate Tables for All Locations on the Selected Date
+    // Sort locations alphabetically for consistent display
+    const sortedLocations = Object.keys(groupedData).sort();
+
+    if (sortedLocations.length === 0) {
+        tablesContainer.innerHTML = "<p>No schedule data available for the selected date.</p>";
+        return;
+    }
+
+    sortedLocations.forEach(location => {
+      const staffList = groupedData[location];
+      if (staffList.length === 0) return; // Skip if no staff for this location on this date
+
+      const table = document.createElement("table");
+
+      const caption = document.createElement("caption");
+      caption.textContent = location;
+      table.appendChild(caption);
+
+      const header = document.createElement("tr");
+      header.innerHTML = "<th>Name</th><th>Role</th><th>Shift(s)</th>";
+      table.appendChild(header);
+
+      staffList.forEach(({ name, role, shifts }) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${name}</td><td>${role}</td><td>${shifts.join("<br>")}</td>`;
+        table.appendChild(row);
+      });
+
+      tablesContainer.appendChild(table);
     });
+  }
 
-    tablesContainer.appendChild(table);
+  // Initial data fetch and setup when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('schedule.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        scheduleData = data;
+        initControls();
+        generateSchedule();
+      })
+      .catch(err => {
+        console.error('Error loading or parsing schedule.json:', err);
+        document.getElementById("tables-container").innerHTML = `<p style="color: red;">Failed to load schedule data. Please check the console for errors.</p>`;
+        document.getElementById("quick-view-list").innerHTML = `<li>Failed to load schedule.</li>`;
+        document.getElementById("week-label").textContent = `Error loading schedule`;
+      });
   });
-}
-
-// Main load
-fetch('schedule.json')
-  .then(response => response.json())
-  .then(data => {
-    scheduleData = data;
-    initControls();
-    generateSchedule();
-  })
-  .catch(err => console.error('Error loading schedule.json:', err));
 </script>
+
 </body>
 </html>
