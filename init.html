@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,68 +12,103 @@
       color: #333;
     }
 
-        /* Header Container Styling - Revised for better flexibility and spacing */
+/* Header Container Styling - Controls the main flex layout */
 .header-container {
   display: flex;
   flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
-  justify-content: space-between; /* Space out the header and disclaimer */
-  align-items: center; /* Vertically align items in the middle */
+  justify-content: space-between; /* Space out the left and right boxes */
+  align-items: flex-start; /* Align items to the top to ensure content starts at the same level */
   margin-bottom: 2em;
-  gap: 1em 2em; /* Row gap and column gap for better spacing between items */
-  padding: 0 0.5em; /* Small horizontal padding to ensure content isn't flush with edges */
+  gap: 1em; /* Overall gap between the two main boxes */
+  padding: 0 0.5em; /* Small horizontal padding */
 }
 
-/* Header H1 Styling - Much smaller and more flexible */
+/* Left Header Box Styling */
+.left-header-box {
+  flex: 1 1 auto; /* Allow it to grow/shrink, but primarily take content width */
+  min-width: 200px; /* Ensures it doesn't get too squished before wrapping */
+  /* Remove border/padding here if you want the border only on the disclaimer */
+}
+
+/* Header H1 Styling - Much smaller and more flexible, regular text appearance */
 .header-container h1 {
-  /* No flex-grow here; let it take its natural width + content. */
-  /* min-width is key to prevent it from collapsing too much before wrapping. */
-  min-width: 200px;
   text-align: left;
-  margin-bottom: 0; /* Remove bottom margin as it's now in a flex container */
+  margin: 0; /* Remove margins to prevent extra space */
   font-size: 1.2em; /* Significantly reduced font size for the main title */
   line-height: 1.3; /* Ensure readability */
+  font-weight: normal; /* Make it regular text, not bold */
 }
 
-/* Disclaimer Styling - Controlled width and guaranteed wrapping */
+/* Right Disclaimer Box Styling */
+.right-disclaimer-box {
+  flex: 0 1 300px; /* Don't grow, can shrink, base width 300px. Adjust as needed. */
+  max-width: 350px; /* Prevent it from becoming too wide */
+  display: flex; /* Use flex to align content inside this box if needed */
+  align-items: center; /* Vertically center content within this box if it had more */
+  justify-content: flex-end; /* Push disclaimer to the right within its own box */
+  box-sizing: border-box; /* Include padding in the width calculation */
+  border: 1px solid #ccc; /* A border for the box */
+  padding: 0.8em 1em; /* Padding inside the box */
+  border-radius: 5px; /* Slightly rounded corners for the box */
+  background-color: #f9f9f9; /* Light background for the box */
+}
+
+
+/* Disclaimer Text Styling - Controlled width and guaranteed wrapping */
 #schedule-disclaimer {
-  /* No flex-grow here either. Let it take its natural width within its max-width. */
-  max-width: 350px; /* Optional: Prevent disclaimer from becoming excessively wide on very large screens */
-  text-align: right;
-  font-size: 0.8em; /* Slightly smaller font for the disclaimer */
+  width: 100%; /* Make the disclaimer take full width of its containing box */
+  text-align: right; /* Align disclaimer text to the right within its box */
+  font-size: 0.8em; /* Smaller font for the disclaimer */
   color: #666;
-  padding-left: 1em; /* Space between header and disclaimer when side-by-side */
-  box-sizing: border-box; /* Ensure padding doesn't push it beyond flex bounds */
   word-wrap: break-word; /* Ensures long words break to prevent horizontal overflow */
   overflow-wrap: break-word; /* Modern equivalent for word-wrap */
 }
 
 #schedule-disclaimer p {
     margin: 0; /* Remove default margin from paragraph inside disclaimer to prevent extra space */
+    font-style: italic; /* Keep the italic style */
 }
 
 /* Media Queries for Responsiveness: Adjust layout when screen is narrower */
-@media (max-width: 768px) { /* Adjust breakpoint as needed. This will trigger stacking. */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
   .header-container {
     flex-direction: column; /* Stack header and disclaimer vertically */
     align-items: center; /* Center items horizontally when stacked */
     text-align: center; /* Ensure text alignment is consistent when stacked */
   }
 
+  .left-header-box,
+  .right-disclaimer-box {
+    width: 100%; /* Take full width when stacked */
+    max-width: 100%; /* Ensure it doesn't get limited by previous max-width */
+    flex: none; /* Remove flex properties that assume a row layout */
+  }
+
   .header-container h1 {
     font-size: 1.5em; /* Slightly larger when stacked for better prominence */
     text-align: center;
-    width: 100%; /* Take full width when stacked */
     margin-bottom: 0.5em; /* Add some space below header when stacked */
-    min-width: unset; /* Remove min-width restriction when stacked */
+    font-weight: bold; /* Make it bold again when stacked for prominence */
   }
 
   #schedule-disclaimer {
     text-align: center; /* Center disclaimer text when stacked */
-    padding-left: 0; /* Remove left padding when stacked */
-    max-width: 100%; /* Allow it to use full width when stacked */
   }
 }
+  </style>
+</head>
+<body>
 
+  <div class="header-container">
+      <div class="left-header-box">
+          <h1>Fellowship Square <span style="font-weight: normal; font-size: 0.8em; opacity: 0.7;">Historic Mesa</span></h1>
+      </div>
+      <div class="right-disclaimer-box">
+          <div id="schedule-disclaimer">
+              <p><em>Schedule is subject to change without notice. Please verify with management.</em></p>
+          </div>
+      </div>
+  </div>
 
 
     #controls label {
