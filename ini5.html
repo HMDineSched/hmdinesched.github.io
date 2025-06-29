@@ -196,12 +196,10 @@
       border-radius: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    /* New styles for weekly table headers */
-    .weekly-table th {
-        text-align: center;
-    }
-    .weekly-table td {
-        vertical-align: top; /* Align content to the top in weekly view cells */
+
+    /* Styles for the weekly table cells to allow wrapping multiple shifts */
+    .weekly-shifts {
+      white-space: normal; /* Allow text to wrap */
     }
     /* --- End of previously misplaced CSS --- */
   </style>
@@ -227,10 +225,10 @@
     <label for="location-select">Location:</label>
     <select id="location-select"></select>
 
-    <label for="view-select">View:</label>
-    <select id="view-select">
-        <option value="daily">Daily View</option>
-        <option value="weekly">Simplified Weekly View</option>
+    <label for="view-type-select">View:</label>
+    <select id="view-type-select">
+      <option value="daily">Daily View</option>
+      <option value="weekly">Weekly View</option>
     </select>
   </div>
 
@@ -252,7 +250,7 @@
   function initControls() {
     const datePicker = document.getElementById("date-picker");
     const locationSelect = document.getElementById("location-select");
-    const viewSelect = document.getElementById("view-select"); // New: View selector
+    const viewTypeSelect = document.getElementById("view-type-select"); // New selector
 
     // Populate Date Picker
     const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
@@ -307,16 +305,16 @@
     }
     locationSelect.addEventListener("change", generateSchedule);
 
-    // New: Add event listener for view selector
-    viewSelect.addEventListener("change", generateSchedule);
+    // Add event listener for the new view type selector
+    viewTypeSelect.addEventListener("change", generateSchedule);
   }
 
   /**
-   * Groups schedule data by location for a given date.
+   * Groups schedule data by location for a given date (for daily view).
    * @param {string} date - The date to filter the schedule by (e.g., "YYYY-MM-DD").
    * @returns {Object} An object where keys are locations and values are arrays of staff details.
    */
-  function getGroupedScheduleFor(date) {
+  function getGroupedDailyScheduleFor(date) {
     const grouped = {};
     scheduleData
       .filter(item => item.date === date)
@@ -335,22 +333,56 @@
   }
 
   /**
-   * Generates and displays the schedule based on the selected date and location and view type.
+   * Groups schedule data by location for a given week (for weekly view).
+   * @param {string} startDateString - The start date of the week (YYYY-MM-DD).
+   * @returns {Object} An object where keys are locations and values are arrays of staff details,
+   * with shifts grouped by day of the week.
+   */
+  function getGroupedWeeklyScheduleFor(startDateString) {
+    const grouped = {};
+    const startDate = new Date(startDateString + 'T00:00:00'); // Use 'T00:00:00' to ensure UTC interpretation for consistency
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 6); // End of the week (7 days from start)
+
+    const allDaysOfWeek = [];
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(startDate);
+        d.setDate(startDate.getDate() + i);
+        allDaysOfWeek.push(d.toISOString().split('T')[0]); // YYYY-MM-DD
+    }
+
+    scheduleData
+      .filter(item => {
+        const itemDate = new Date(item.date + 'T00:00:00'); // Consistent UTC interpretation
+        return itemDate >= startDate && itemDate <= endDate;
+      })
+      .forEach(({ name, time, location, date }) => {
+        if (!grouped[location]) grouped[location] = {};
+        if (!grouped[location][name]) {
+          grouped[location][name] = {};
+          allDaysOfWeek.forEach(day => {
+            grouped[location][name][day] = []; // Initialize empty array for each day
+          });
+        }
+        grouped[location][name][date].push(time);
+      });
+    return grouped;
+  }
+
+  /**
+   * Generates and displays the schedule based on the selected date, location, and view type.
    */
   function generateSchedule() {
     const datePicker = document.getElementById("date-picker");
     const locationSelect = document.getElementById("location-select");
-    const viewSelect = document.getElementById("view-select"); // New: Get view selector value
+    const viewTypeSelect = document.getElementById("view-type-select");
     const selectedDate = datePicker.value; // e.g., "2025-06-28"
     const selectedLocation = locationSelect.value;
-    const selectedView = viewSelect.value; // "daily" or "weekly"
+    const viewType = viewTypeSelect.value;
 
     const weekLabel = document.getElementById("week-label");
     const quickViewList = document.getElementById("quick-view-list");
     const tablesContainer = document.getElementById("tables-container");
-
-    quickViewList.innerHTML = "";
-    tablesContainer.innerHTML = "";
 
     // --- Start: Relative Date Indicator Logic (REVISED in previous response) ---
     // Get current date, normalized to UTC midnight for consistent comparison
@@ -370,7 +402,7 @@
     const diffMs = selectedDateUtcMidnight.getTime() - todayUtcMidnight.getTime();
     const diffDays = Math.round(diffMs / oneDayMs); // Use Math.round for safety against tiny floating point errors
 
-    if (selectedView === "daily") {
+    if (viewType === 'daily') {
         if (diffDays === 0) {
             dateLabel = `Schedule for Today (${selectedDate})`;
         } else if (diffDays === 1) {
@@ -398,31 +430,27 @@
             }
         }
     } else { // Weekly view
+        // For weekly view, show the full week range
         const startOfWeek = new Date(selectedDateUtcMidnight);
-        startOfWeek.setUTCDate(startOfWeek.getUTCDate() - startOfWeek.getUTCDay()); // Sunday of the week
+        startOfWeek.setUTCDate(selectedDateUtcMidnight.getUTCDate() - selectedDateUtcMidnight.getUTCDay()); // Go back to Sunday (0=Sunday)
         const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setUTCDate(endOfWeek.getUTCDate() + 6); // Saturday of the week
+        endOfWeek.setUTCDate(startOfWeek.getUTCDate() + 6);
 
-        const startMonthDay = startOfWeek.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
-        const endMonthDay = endOfWeek.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
-        const startYear = startOfWeek.getUTCFullYear();
-        const endYear = endOfWeek.getUTCFullYear();
+        const startOfWeekFormatted = startOfWeek.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
+        const endOfWeekFormatted = endOfWeek.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
 
-        if (startYear === endYear) {
-            dateLabel = `Simplified Weekly View: Week of ${startMonthDay} - ${endMonthDay}, ${startYear}`;
-        } else {
-            dateLabel = `Simplified Weekly View: Week of ${startMonthDay}, ${startYear} - ${endMonthDay}, ${endYear}`;
-        }
+        dateLabel = `Schedule for the Week of ${startOfWeekFormatted} - ${endOfWeekFormatted}`;
     }
 
-    weekLabel.textContent = dateLabel;
     // --- End: Relative Date Indicator Logic ---
 
+    weekLabel.textContent = dateLabel;
+    quickViewList.innerHTML = "";
+    tablesContainer.innerHTML = "";
 
-    if (selectedView === "daily") {
-      const groupedData = getGroupedScheduleFor(selectedDate);
-
-      // Populate Quick View for the Selected Location (Daily View)
+    if (viewType === 'daily') {
+      const groupedData = getGroupedDailyScheduleFor(selectedDate);
+      // Populate Quick View for the Selected Location (Daily)
       if (groupedData[selectedLocation] && groupedData[selectedLocation].length > 0) {
         groupedData[selectedLocation].forEach(({ name, role, shifts }) => {
           const li = document.createElement("li");
@@ -433,7 +461,7 @@
         quickViewList.innerHTML = "<li>No shifts for the selected location on this date.</li>";
       }
 
-      // Generate Tables for All Locations on the Selected Date (Daily View)
+      // Generate Tables for All Locations on the Selected Date (Daily)
       const sortedLocations = Object.keys(groupedData).sort();
 
       if (sortedLocations.length === 0) {
@@ -464,97 +492,61 @@
         tablesContainer.appendChild(table);
       });
     } else { // Weekly View
-      // Determine the start and end dates of the week
-      const date = new Date(selectedDate + 'T00:00:00'); // Ensure UTC to avoid timezone issues with date manipulation
-      date.setUTCHours(0, 0, 0, 0); // Normalize to midnight UTC
+      // Determine the start of the week for the selected date (assuming Sunday as start of week)
+      const dateForWeekStart = new Date(selectedDate + 'T00:00:00'); // Use T00:00:00 for consistent parsing
+      dateForWeekStart.setDate(dateForWeekStart.getDate() - dateForWeekStart.getDay()); // Get to the Sunday of the week
+      const startOfWeekString = dateForWeekStart.toISOString().split('T')[0];
 
-      const dayOfWeek = date.getUTCDay(); // 0 for Sunday, 1 for Monday, etc.
-      const startOfWeek = new Date(date);
-      startOfWeek.setUTCDate(date.getUTCDate() - dayOfWeek); // Go back to Sunday
+      const groupedWeeklyData = getGroupedWeeklyScheduleFor(startOfWeekString);
 
-      const daysOfWeek = [];
-      for (let i = 0; i < 7; i++) {
-          const d = new Date(startOfWeek);
-          d.setUTCDate(startOfWeek.getUTCDate() + i);
-          daysOfWeek.push(d.toISOString().split('T')[0]); // YYYY-MM-DD
-      }
+      // Quick view is not applicable/meaningful for weekly view, so clear it
+      quickViewList.innerHTML = "<li>Quick view is not available for weekly schedules.</li>";
 
-      // Quick View for Weekly: Show all staff in selected location for the week
-      const weeklyQuickViewData = {};
-      daysOfWeek.forEach(d => {
-        scheduleData
-          .filter(item => item.date === d && item.location === selectedLocation)
-          .forEach(({ name, time, role }) => { // Include role here to combine shifts for the same person
-            if (!weeklyQuickViewData[name]) {
-              weeklyQuickViewData[name] = { shifts: [] };
-            }
-            weeklyQuickViewData[name].shifts.push(`${d.substring(5)} ${time} (${role})`); // e.g., "06-28 08:00 (Cook)"
-          });
-      });
+      const sortedLocations = Object.keys(groupedWeeklyData).sort();
 
-      const sortedQuickViewNames = Object.keys(weeklyQuickViewData).sort();
-      if (sortedQuickViewNames.length > 0) {
-          sortedQuickViewNames.forEach(name => {
-              const li = document.createElement("li");
-              li.textContent = `${name}: ${weeklyQuickViewData[name].shifts.join(", ")}`;
-              quickViewList.appendChild(li);
-          });
-      } else {
-          quickViewList.innerHTML = "<li>No shifts for the selected location in this week.</li>";
-      }
-
-      // Generate Tables for Weekly View: Group by location, then by staff member across the week
-      const weeklyGroupedByLocation = {};
-      scheduleData.forEach(item => {
-          if (daysOfWeek.includes(item.date)) {
-              if (!weeklyGroupedByLocation[item.location]) {
-                  weeklyGroupedByLocation[item.location] = {};
-              }
-              if (!weeklyGroupedByLocation[item.location][item.name]) {
-                  weeklyGroupedByLocation[item.location][item.name] = {};
-              }
-              if (!weeklyGroupedByLocation[item.location][item.name][item.date]) {
-                  weeklyGroupedByLocation[item.location][item.name][item.date] = [];
-              }
-              weeklyGroupedByLocation[item.location][item.name][item.date].push(item.time);
-          }
-      });
-
-      const sortedWeeklyLocations = Object.keys(weeklyGroupedByLocation).sort();
-
-      if (sortedWeeklyLocations.length === 0) {
-          tablesContainer.innerHTML = "<p>No weekly schedule data available for this week.</p>";
+      if (sortedLocations.length === 0) {
+          tablesContainer.innerHTML = "<p>No weekly schedule data available for this period.</p>";
           return;
       }
 
-      sortedWeeklyLocations.forEach(location => {
-        const table = document.createElement("table");
-        table.classList.add('weekly-table'); // Add class for specific weekly table styling
+      sortedLocations.forEach(location => {
+        const staffDataForLocation = groupedWeeklyData[location];
+        if (Object.keys(staffDataForLocation).length === 0) return;
 
+        const table = document.createElement("table");
         const caption = document.createElement("caption");
-        caption.textContent = location;
+        caption.textContent = `Weekly Schedule for ${location}`;
         table.appendChild(caption);
 
         const header = document.createElement("tr");
-        header.innerHTML = "<th>Name</th>";
-        daysOfWeek.forEach(d => {
-            const dateObj = new Date(d + 'T00:00:00Z'); // Parse as UTC to avoid local timezone issues
-            header.innerHTML += `<th>${dateObj.toLocaleString('en-US', { weekday: 'short', month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' })}</th>`;
-        });
+        header.innerHTML = "<th>Name</th>"; // Name column
+
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const datesOfWeek = [];
+        for (let i = 0; i < 7; i++) {
+            const d = new Date(dateForWeekStart);
+            d.setDate(dateForWeekStart.getDate() + i);
+            datesOfWeek.push(d.toISOString().split('T')[0]); // YYYY-MM-DD
+            header.innerHTML += `<th>${days[i]}<br>(${d.toLocaleString('en-US', { month: 'numeric', day: 'numeric'})})</th>`;
+        }
         table.appendChild(header);
 
-        const staffNamesInLocation = Object.keys(weeklyGroupedByLocation[location]).sort();
+        // Sort staff names alphabetically
+        const sortedStaffNames = Object.keys(staffDataForLocation).sort((a, b) => {
+            // Case-insensitive sort
+            return a.localeCompare(b, undefined, { sensitivity: 'base' });
+        });
 
-        staffNamesInLocation.forEach(name => {
+        sortedStaffNames.forEach(name => {
           const row = document.createElement("tr");
-          row.innerHTML = `<td>${name}</td>`;
-          daysOfWeek.forEach(d => {
-            const shifts = weeklyGroupedByLocation[location][name][d] || [];
-            row.innerHTML += `<td>${shifts.join("<br>")}</td>`;
+          row.innerHTML = `<td>${name}</td>`; // Name cell
+
+          datesOfWeek.forEach(date => {
+            const shifts = staffDataForLocation[name][date] || [];
+            row.innerHTML += `<td class="weekly-shifts">${shifts.join("<br>")}</td>`;
           });
           table.appendChild(row);
         });
-
         tablesContainer.appendChild(table);
       });
     }
