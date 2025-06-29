@@ -12,20 +12,37 @@
       margin: 2em;
       background-color: #f4f4f4;
       color: #333;
-    }
     h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    label {
-      margin-right: 0.5em;
-      font-weight: bold;
-    }
-    select, input[type="date"] {
-      margin: 0.5em 1em 1em 0;
-      padding: 0.4em;
-      font-size: 1em;
-    }
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2em; /* Reduced from original size */
+  margin-bottom: 1em; /* Add some space below the header */
+}
+    #controls label { /* NOTE the #controls specificity */
+  font-weight: 600; /* NEW */
+  color: #34495e; /* NEW */
+  font-size: 1.05em; /* NEW */
+}
+    #controls select,
+#controls input[type="date"] {
+  padding: 0.6em 0.8em; /* CHANGED */
+  border: 1px solid #b2c2d2; /* NEW */
+  border-radius: 5px; /* NEW */
+  font-size: 1em;
+  color: #555; /* NEW */
+  background-color: #fff; /* NEW */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* NEW */
+  flex-grow: 1; /* NEW */
+  max-width: 200px; /* NEW */
+}
+
+#controls select:focus,
+#controls input[type="date"]:focus {
+  border-color: #3498db; /* NEW */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* NEW */
+  outline: none; /* NEW */
+}
+
     #quick-view {
       background-color: #fff;
       border: 1px solid #ccc;
@@ -68,16 +85,22 @@
       background-color: #f9f9f9;
     }
     #controls {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 1em;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* NEW */
+  align-items: center;
+  gap: 1.5em; /* CHANGED */
+  margin-bottom: 2em; /* NEW */
+  background-color: #eaf2f8; /* NEW */
+  padding: 1em 1.5em; /* NEW */
+  border-radius: 8px; /* NEW */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* NEW */
+}
   </style>
 </head>
 <body>
 
-  <h1>Fellowship Square – Historic Mesa</h1>
+  <h1>Fellowship Square <span style="font-weight: normal; font-size: 0.8em; opacity: 0.7;">Historic Mesa</span></h1>
 
   <div id="controls">
     <label for="date-picker">Date:</label>
