@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fellowship Square – Historic Mesa Schedule</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2em; /* Keep some margin around the body content */
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    /* Outer container for header and disclaimer - allows relative positioning */
+    .header-outer-container {
+      position: relative; /* Essential for positioning children absolutely */
+      width: 100%;
+      min-height: 80px; /* Ensure enough height for elements to be positioned */
+      margin-bottom: 2em;
+      box-sizing: border-box; /* Include padding in width/height calculation */
+      padding: 0 0.5em; /* Small horizontal padding */
+    }
+
+    /* Left Header Group Styling */
+    .left-header-group {
+      position: absolute; /* Position relative to .header-outer-container */
+      top: 0; /* Align to the very top */
+      left: 0; /* Align to the very left */
+      padding: 0; /* Remove any default padding */
+      margin: 0; /* Remove any default margin */
+      text-align: left;
+    }
+
+    /* Main Header Title */
+    .left-header-group h1 {
+      margin: 0; /* Remove default margins for precise placement */
+      font-size: 1.2em; /* Slightly larger for main title */
+      font-weight: normal; /* Keep it normal weight */
+      line-height: 1; /* Tighten line height */
+    }
+
+    /* Subtitle "Historic Mesa" */
+    .left-header-group .subtitle {
+      display: block; /* Ensure it takes its own line */
+      font-size: 0.8em; /* Smaller font */
+      opacity: 0.7;
+      margin-top: 0.2em; /* Small space below main title */
+      padding-left: 2em; /* Offset to the right */
+    }
+
+    /* Right Disclaimer Box Styling */
+    .right-disclaimer-box {
+      position: absolute; /* Position relative to .header-outer-container */
+      bottom: 0; /* Align to the very bottom */
+      right: 0; /* Align to the very right */
+      max-width: 350px; /* Control width of the disclaimer box */
+      box-sizing: border-box; /* Include padding in width calculation */
+      border: 1px solid #ccc; /* A border for the box */
+      padding: 0.8em 1em; /* Padding inside the box */
+      border-radius: 5px; /* Slightly rounded corners for the box */
+      background-color: #f9f9f9; /* Light background for the box */
+      text-align: right; /* Align disclaimer text to the right within its box */
+    }
+
+    /* Disclaimer Text Styling */
+    #schedule-disclaimer {
+      font-size: 0.7em; /* Even smaller font for the disclaimer */
+      color: #666;
+      word-wrap: break-word; /* Ensures long words break */
+      overflow-wrap: break-word; /* Modern equivalent */
+    }
+
+    #schedule-disclaimer p {
+        margin: 0; /* Remove default margin from paragraph */
+        font-style: italic; /* Keep the italic style */
+    }
+
+    /* Media Queries for Responsiveness: Adjust layout when screen is narrower */
+    @media (max-width: 768px) { /* Adjust breakpoint as needed */
+      .header-outer-container {
+        position: static; /* Remove absolute positioning on small screens */
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center items horizontally when stacked */
+        text-align: center;
+      }
+
+      .left-header-group,
+      .right-disclaimer-box {
+        position: static; /* Remove absolute positioning */
+        width: 100%; /* Take full width */
+        max-width: 100%;
+        margin-bottom: 1em; /* Add space between stacked elements */
+        text-align: center; /* Center text when stacked */
+        padding: 0; /* Remove specific padding for the main elements */
+      }
+
+      .left-header-group h1 {
+        font-size: 1.5em; /* Larger when stacked for better prominence */
+        font-weight: bold; /* Make it bold again when stacked */
+      }
+
+      .left-header-group .subtitle {
+        padding-left: 0; /* Remove offset when stacked */
+        display: inline; /* Can be inline with main title if preferred, or block */
+      }
+
+      #schedule-disclaimer {
+        font-size: 0.8em; /* Slightly larger disclaimer font when stacked */
+        text-align: center; /* Center disclaimer text when stacked */
+      }
+
+      .right-disclaimer-box {
+          padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
+      }
+    }
+
+    /* --- Start of previously misplaced CSS for controls, quick-view, table --- */
+    #controls label {
+      font-weight: 600;
+      color: #34495e;
+      font-size: 1.05em;
+    }
+    #controls select,
+    #controls input[type="date"] {
+      padding: 0.6em 0.8em;
+      border: 1px solid #b2c2d2;
+      border-radius: 5px;
+      font-size: 1em;
+      color: #555;
+      background-color: #fff;
+      transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      flex-grow: 1;
+      max-width: 200px;
+    }
+
+    #controls select:focus,
+    #controls input[type="date"]:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      outline: none;
+    }
+
+    #quick-view {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin-bottom: 2em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #quick-view ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    #quick-view li {
+      padding: 0.3em 0;
+    }
+    table {
+      width: 100%;
+      margin: 2em 0;
+      border-collapse: collapse;
+      background: white;
+    }
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+      text-align: left;
+      padding: 0.5em;
+      background-color: #3498db;
+      color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.6em;
+      text-align: left;
+    }
+    th {
+      background-color: #ecf0f1;
+    }
+    tr:nth-child(even) td {
+      background-color: #f9f9f9;
+    }
+    #controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5em;
+      margin-bottom: 2em;
+      background-color: #eaf2f8;
+      padding: 1em 1.5em;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    /* --- End of previously misplaced CSS --- */
+  </style>
+</head>
+<body>
+
+  <div class="header-outer-container">
+      <div class="left-header-group">
+          <h1>Fellowship Square</h1>
+          <span class="subtitle">Historic Mesa Dine Schedule</span>
+      </div>
+      <div class="right-disclaimer-box">
+          <div id="schedule-disclaimer">
+              <p><em>This schedule is here to help us all stay in sync. For the latest updates, please check in with your team.</em></p>
+          </div>
+      </div>
+  </div>
+
+  <div id="controls">
+    <label for="date-picker">Date:</label>
+    <input type="date" id="date-picker" />
+
+    <label for="location-select">Location:</label>
+    <select id="location-select"></select>
+  </div>
+
+  <div id="week-label" style="font-size: 1.2em; font-weight: bold; margin-bottom: 1em;"></div>
+
+  <div id="quick-view">
+    <strong>Quick View</strong>
+    <ul id="quick-view-list"></ul>
+  </div>
+
+  <div id="tables-container"></div>
+
+  <script>
+  let scheduleData = [];
+
+  /**
+   * Initializes the date and location selection controls based on the fetched schedule data.
+   */
+  function initControls() {
+    const datePicker = document.getElementById("date-picker");
+    const locationSelect = document.getElementById("location-select");
+
+    // Populate Date Picker
+    const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
+    datePicker.innerHTML = ""; // Clear existing options
+    allDates.forEach(date => {
+      const option = document.createElement("option");
+      option.value = date;
+      option.textContent = date;
+      datePicker.appendChild(option);
+    });
+
+    // --- NEW LOGIC for Default Date Based on Mesa Time ---
+    const currentUtcTime = new Date(); // Get current time in UTC
+    // Arizona (MST) is UTC-7. Convert current UTC milliseconds to Mesa's local milliseconds.
+    const MESA_AZ_OFFSET_MS = -7 * 60 * 60 * 1000; // -7 hours in milliseconds
+    const currentMesaDate = new Date(currentUtcTime.getTime() + MESA_AZ_OFFSET_MS);
+
+    // Get the hour and minute in Mesa, AZ (using UTC methods on the adjusted Date object)
+    const mesaHour = currentMesaDate.getUTCHours();
+    const mesaMinute = currentMesaDate.getUTCMinutes();
+
+    let defaultTargetDate = new Date(currentMesaDate); // Start with today's date in Mesa
+
+    // If it's 5:45 PM (17:45) or later in Mesa, default to tomorrow's date
+    if (mesaHour > 17 || (mesaHour === 17 && mesaMinute >= 45)) {
+        defaultTargetDate.setUTCDate(currentMesaDate.getUTCDate() + 1); // Add one day to the UTC date
+    }
+    // Else (before 5:45 PM or past midnight), it defaults to today's date (which defaultTargetDate already is)
+
+    // Format the default date to YYYY-MM-DD string
+    const defaultDateString = defaultTargetDate.toISOString().split("T")[0];
+
+    // Set default date picker value: If the calculated default date exists in our schedule data, use it.
+    // Otherwise, fall back to the first available date in the schedule (which implies no schedule for the target date).
+    datePicker.value = allDates.includes(defaultDateString) ? defaultDateString : allDates[0];
+    // --- END NEW LOGIC ---
+
+    datePicker.addEventListener("change", generateSchedule);
+
+    // Populate Location Select
+    const locationSet = new Set(scheduleData.map(item => item.location));
+    locationSelect.innerHTML = ""; // Clear existing options
+    locationSet.forEach(loc => {
+      const option = document.createElement("option");
+      option.value = loc;
+      option.textContent = loc;
+      locationSelect.appendChild(option);
+    });
+    // Set default location if needed, otherwise the first one
+    if (locationSet.size > 0) {
+        locationSelect.value = Array.from(locationSet)[0];
+    }
+    locationSelect.addEventListener("change", generateSchedule);
+  }
+
+  /**
+   * Groups schedule data by location for a given date.
+   * @param {string} date - The date to filter the schedule by (e.g., "YYYY-MM-DD").
+   * @returns {Object} An object where keys are locations and values are arrays of staff details.
+   */
+  function getGroupedScheduleFor(date) {
+    const grouped = {};
+    scheduleData
+      .filter(item => item.date === date)
+      .forEach(({ name, role, time, location }) => {
+        if (!grouped[location]) grouped[location] = [];
+
+        // Check if this name/role combination already exists for this location
+        let existing = grouped[location].find(entry => entry.name === name && entry.role === role);
+        if (!existing) {
+          existing = { name, role, shifts: [] };
+          grouped[location].push(existing);
+        }
+        existing.shifts.push(time); // Add the time to their shifts
+      });
+    return grouped;
+  }
+
+  /**
+   * Generates and displays the schedule based on the selected date and location.
+   */
+  function generateSchedule() {
+    const datePicker = document.getElementById("date-picker");
+    const locationSelect = document.getElementById("location-select");
+    const selectedDate = datePicker.value; // e.g., "2025-06-28"
+    const selectedLocation = locationSelect.value;
+    const groupedData = getGroupedScheduleFor(selectedDate);
+
+    const weekLabel = document.getElementById("week-label");
+    const quickViewList = document.getElementById("quick-view-list");
+    const tablesContainer = document.getElementById("tables-container");
+
+    // --- Start: Relative Date Indicator Logic (REVISED in previous response) ---
+    // Get current date, normalized to UTC midnight for consistent comparison
+    const now = new Date();
+    const todayUtcMidnight = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+
+    // Parse selected date string into a Date object, normalized to UTC midnight for consistent comparison
+    const selectedDateParts = selectedDate.split('-').map(Number); // [year, month, day]
+    // Month is 0-indexed for Date.UTC, so subtract 1 from the month part
+    const selectedDateUtcMidnight = new Date(Date.UTC(selectedDateParts[0], selectedDateParts[1] - 1, selectedDateParts[2]));
+
+    let dateLabel = `Schedule for ${selectedDate}`; // Default to full date string
+
+    const oneDayMs = 24 * 60 * 60 * 1000; // milliseconds in a day
+
+    // Calculate difference in days using UTC midnights. This will be a precise integer for full day differences.
+    const diffMs = selectedDateUtcMidnight.getTime() - todayUtcMidnight.getTime();
+    const diffDays = Math.round(diffMs / oneDayMs); // Use Math.round for safety against tiny floating point errors
+
+    if (diffDays === 0) {
+        dateLabel = `Schedule for Today (${selectedDate})`;
+    } else if (diffDays === 1) {
+        dateLabel = `Schedule for Tomorrow (${selectedDate})`;
+    } else if (diffDays === -1) {
+        dateLabel = `Schedule for Yesterday (${selectedDate})`;
+    } else {
+        // Format display strings using 'America/Phoenix' (Mesa's timezone)
+        // This ensures day of week is correct for the schedule's location, not user's browser TZ.
+        const dayOfWeek = selectedDateUtcMidnight.toLocaleString('en-US', { weekday: 'long', timeZone: 'America/Phoenix' });
+        const monthDay = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
+        const fullMonthDayYear = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
+
+        // Check for "This [DayOfWeek]" (within 7 days future, excluding today/tomorrow already covered)
+        if (diffDays > 0 && diffDays <= 7) {
+            dateLabel = `Schedule for This ${dayOfWeek} (${monthDay})`;
+        }
+        // Check for "Last [DayOfWeek]" (within 7 days past, excluding yesterday already covered)
+        else if (diffDays < 0 && diffDays >= -7) {
+            dateLabel = `Schedule for Last ${dayOfWeek} (${monthDay})`;
+        }
+        // For anything else (more than 7 days away), use the full date
+        else {
+            dateLabel = `Schedule for ${dayOfWeek}, ${fullMonthDayYear}`;
+        }
+    }
+    // --- End: Relative Date Indicator Logic ---
+
+    weekLabel.textContent = dateLabel;
+    quickViewList.innerHTML = "";
+    tablesContainer.innerHTML = "";
+
+    // Populate Quick View for the Selected Location
+    if (groupedData[selectedLocation] && groupedData[selectedLocation].length > 0) {
+      groupedData[selectedLocation].forEach(({ name, role, shifts }) => {
+        const li = document.createElement("li");
+        li.textContent = `${name} (${role}): ${shifts.join(", ")}`;
+        quickViewList.appendChild(li);
+      });
+    } else {
+      quickViewList.innerHTML = "<li>No shifts for the selected location on this date.</li>";
+    }
+
+    // Generate Tables for All Locations on the Selected Date
+    const sortedLocations = Object.keys(groupedData).sort();
+
+    if (sortedLocations.length === 0) {
+        tablesContainer.innerHTML = "<p>No schedule data available for the selected date.</p>";
+        return;
+    }
+
+    sortedLocations.forEach(location => {
+      const staffList = groupedData[location];
+      if (staffList.length === 0) return;
+
+      const table = document.createElement("table");
+
+      const caption = document.createElement("caption");
+      caption.textContent = location;
+      table.appendChild(caption);
+
+      const header = document.createElement("tr");
+      header.innerHTML = "<th>Name</th><th>Role</th><th>Shift(s)</th>";
+      table.appendChild(header);
+
+      staffList.forEach(({ name, role, shifts }) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${name}</td><td>${role}</td><td>${shifts.join("<br>")}</td>`;
+        table.appendChild(row);
+      });
+
+      tablesContainer.appendChild(table);
+    });
+  }
+
+  // Initial data fetch and setup when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('test.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        scheduleData = data;
+        initControls();
+        generateSchedule();
+      })
+      .catch(err => {
+        console.error('Error loading or parsing schedule.json:', err);
+        document.getElementById("tables-container").innerHTML = `<p style="color: red;">Failed to load schedule data. Please check the console for errors.</p>`;
+        document.getElementById("quick-view-list").innerHTML = `<li>Failed to load schedule.</li>`;
+        document.getElementById("week-label").textContent = `Error loading schedule`;
+      });
+  });
+</script>
+
+</body>
+</html>
