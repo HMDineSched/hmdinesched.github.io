@@ -1,0 +1,191 @@
+body {
+  font-family: sans-serif;
+  margin: 2em; /* Keep some margin around the body content */
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Outer container for header and disclaimer - allows relative positioning */
+.header-outer-container {
+  position: relative; /* Essential for positioning children absolutely */
+  width: 100%;
+  min-height: 80px; /* Ensure enough height for elements to be positioned */
+  margin-bottom: 2em;
+  box-sizing: border-box; /* Include padding in width/height calculation */
+  padding: 0 0.5em; /* Small horizontal padding */
+}
+
+/* Left Header Group Styling */
+.left-header-group {
+  position: absolute; /* Position relative to .header-outer-container */
+  top: 0; /* Align to the very top */
+  left: 0; /* Align to the very left */
+  padding: 0; /* Remove any default padding */
+  margin: 0; /* Remove any default margin */
+  text-align: left;
+}
+
+/* Main Header Title */
+.left-header-group h1 {
+  margin: 0; /* Remove default margins for precise placement */
+  font-size: 1.2em; /* Slightly larger for main title */
+  font-weight: normal; /* Keep it normal weight */
+  line-height: 1; /* Tighten line height */
+}
+
+/* Subtitle "Historic Mesa" */
+.left-header-group .subtitle {
+  display: block; /* Ensure it takes its own line */
+  font-size: 0.8em; /* Smaller font */
+  opacity: 0.7;
+  margin-top: 0.2em; /* Small space below main title */
+  padding-left: 2em; /* Offset to the right */
+}
+
+/* Right Disclaimer Box Styling */
+.right-disclaimer-box {
+  position: absolute; /* Position relative to .header-outer-container */
+  bottom: 0; /* Align to the very bottom */
+  right: 0; /* Align to the very right */
+  max-width: 350px; /* Control width of the disclaimer box */
+  box-sizing: border-box; /* Include padding in width calculation */
+  border: 1px solid #ccc; /* A border for the box */
+  padding: 0.8em 1em; /* Padding inside the box */
+  border-radius: 5px; /* Slightly rounded corners for the box */
+  background-color: #f9f9f9; /* Light background for the box */
+  text-align: right; /* Align disclaimer text to the right within its box */
+}
+
+/* Disclaimer Text Styling */
+#schedule-disclaimer {
+  font-size: 0.7em; /* Even smaller font for the disclaimer */
+  color: #666;
+  word-wrap: break-word; /* Ensures long words break */
+  overflow-wrap: break-word; /* Modern equivalent */
+}
+
+#schedule-disclaimer p {
+    margin: 0; /* Remove default margin from paragraph */
+    font-style: italic; /* Keep the italic style */
+}
+
+/* Media Queries for Responsiveness: Adjust layout when screen is narrower */
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+  .header-outer-container {
+    position: static; /* Remove absolute positioning on small screens */
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally when stacked */
+    text-align: center;
+  }
+
+  .left-header-group,
+  .right-disclaimer-box {
+    position: static; /* Remove absolute positioning */
+    width: 100%; /* Take full width */
+    max-width: 100%;
+    margin-bottom: 1em; /* Add space between stacked elements */
+    text-align: center; /* Center text when stacked */
+    padding: 0; /* Remove specific padding for the main elements */
+  }
+
+  .left-header-group h1 {
+    font-size: 1.5em; /* Larger when stacked for better prominence */
+    font-weight: bold; /* Make it bold again when stacked */
+  }
+
+  .left-header-group .subtitle {
+    padding-left: 0; /* Remove offset when stacked */
+    display: inline; /* Can be inline with main title if preferred, or block */
+  }
+
+  #schedule-disclaimer {
+    font-size: 0.8em; /* Slightly larger disclaimer font when stacked */
+    text-align: center; /* Center disclaimer text when stacked */
+  }
+
+  .right-disclaimer-box {
+      padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
+  }
+}
+
+/* --- Start of previously misplaced CSS for controls, quick-view, table --- */
+#controls label {
+  font-weight: 600;
+  color: #34495e;
+  font-size: 1.05em;
+}
+#controls select,
+#controls input[type="date"] {
+  padding: 0.6em 0.8em;
+  border: 1px solid #b2c2d2;
+  border-radius: 5px;
+  font-size: 1em;
+  color: #555;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  flex-grow: 1;
+  max-width: 200px;
+}
+
+#controls select:focus,
+#controls input[type="date"]:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  outline: none;
+}
+
+#quick-view {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin-bottom: 2em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+#quick-view ul {
+  list-style: none;
+  padding-left: 0;
+}
+#quick-view li {
+  padding: 0.3em 0;
+}
+table {
+  width: 100%;
+  margin: 2em 0;
+  border-collapse: collapse;
+  background: white;
+}
+caption {
+  caption-side: top;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  text-align: left;
+  padding: 0.5em;
+  background-color: #3498db;
+  color: white;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.6em;
+  text-align: left;
+}
+th {
+  background-color: #ecf0f1;
+}
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5em;
+  margin-bottom: 2em;
+  background-color: #eaf2f8;
+  padding: 1em 1.5em;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
