@@ -230,7 +230,7 @@
 
   <div id="tables-container"></div>
 
-  <script>
+<script>
   let scheduleData = [];
 
   /**
@@ -241,7 +241,10 @@
     const locationSelect = document.getElementById("location-select");
 
     // Populate Date Picker
-    const allDates = [...new Set(scheduleData.map(item => item.date))].sort();
+    // Ensure scheduleData is sorted by date for correct default behavior
+    scheduleData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const allDates = [...new Set(scheduleData.map(item => item.date))]; // Get unique sorted dates
+
     datePicker.innerHTML = ""; // Clear existing options
     allDates.forEach(date => {
       const option = document.createElement("option");
@@ -250,31 +253,21 @@
       datePicker.appendChild(option);
     });
 
-    // --- NEW LOGIC for Default Date Based on Mesa Time ---
-    const currentUtcTime = new Date(); // Get current time in UTC
-    // Arizona (MST) is UTC-7. Convert current UTC milliseconds to Mesa's local milliseconds.
-    const MESA_AZ_OFFSET_MS = -7 * 60 * 60 * 1000; // -7 hours in milliseconds
-    const currentMesaDate = new Date(currentUtcTime.getTime() + MESA_AZ_OFFSET_MS);
+    // SIMPLIFIED DEFAULT DATE LOGIC:
+    // Try to set the default date to today's date if available in the schedule.
+    // If not, default to the earliest date available in the schedule.
+    const today = new Date();
+    const todayString = today.toISOString().split("T")[0]; // YYYY-MM-DD
 
-    // Get the hour and minute in Mesa, AZ (using UTC methods on the adjusted Date object)
-    const mesaHour = currentMesaDate.getUTCHours();
-    const mesaMinute = currentMesaDate.getUTCMinutes();
-
-    let defaultTargetDate = new Date(currentMesaDate); // Start with today's date in Mesa
-
-    // If it's 5:45 PM (17:45) or later in Mesa, default to tomorrow's date
-    if (mesaHour > 17 || (mesaHour === 17 && mesaMinute >= 45)) {
-        defaultTargetDate.setUTCDate(currentMesaDate.getUTCDate() + 1); // Add one day to the UTC date
+    if (allDates.includes(todayString)) {
+      datePicker.value = todayString;
+    } else if (allDates.length > 0) {
+      datePicker.value = allDates[0]; // Default to the first available date
+    } else {
+      datePicker.value = ""; // No dates available
+      console.warn("No dates found in schedule data.");
     }
-    // Else (before 5:45 PM or past midnight), it defaults to today's date (which defaultTargetDate already is)
-
-    // Format the default date to YYYY-MM-DD string
-    const defaultDateString = defaultTargetDate.toISOString().split("T")[0];
-
-    // Set default date picker value: If the calculated default date exists in our schedule data, use it.
-    // Otherwise, fall back to the first available date in the schedule (which implies no schedule for the target date).
-    datePicker.value = allDates.includes(defaultDateString) ? defaultDateString : allDates[0];
-    // --- END NEW LOGIC ---
+    // END SIMPLIFIED DEFAULT DATE LOGIC
 
     datePicker.addEventListener("change", generateSchedule);
 
@@ -289,7 +282,7 @@
     });
     // Set default location if needed, otherwise the first one
     if (locationSet.size > 0) {
-        locationSelect.value = Array.from(locationSet)[0];
+      locationSelect.value = Array.from(locationSet)[0];
     }
     locationSelect.addEventListener("change", generateSchedule);
   }
@@ -350,30 +343,30 @@
     const diffDays = Math.round(diffMs / oneDayMs); // Use Math.round for safety against tiny floating point errors
 
     if (diffDays === 0) {
-        dateLabel = `Schedule for Today (${selectedDate})`;
+      dateLabel = `Schedule for Today (${selectedDate})`;
     } else if (diffDays === 1) {
-        dateLabel = `Schedule for Tomorrow (${selectedDate})`;
+      dateLabel = `Schedule for Tomorrow (${selectedDate})`;
     } else if (diffDays === -1) {
-        dateLabel = `Schedule for Yesterday (${selectedDate})`;
+      dateLabel = `Schedule for Yesterday (${selectedDate})`;
     } else {
-        // Format display strings using 'America/Phoenix' (Mesa's timezone)
-        // This ensures day of week is correct for the schedule's location, not user's browser TZ.
-        const dayOfWeek = selectedDateUtcMidnight.toLocaleString('en-US', { weekday: 'long', timeZone: 'America/Phoenix' });
-        const monthDay = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
-        const fullMonthDayYear = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
+      // Format display strings using 'America/Phoenix' (Mesa's timezone)
+      // This ensures day of week is correct for the schedule's location, not user's browser TZ.
+      const dayOfWeek = selectedDateUtcMidnight.toLocaleString('en-US', { weekday: 'long', timeZone: 'America/Phoenix' });
+      const monthDay = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
+      const fullMonthDayYear = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
 
-        // Check for "This [DayOfWeek]" (within 7 days future, excluding today/tomorrow already covered)
-        if (diffDays > 0 && diffDays <= 7) {
-            dateLabel = `Schedule for This ${dayOfWeek} (${monthDay})`;
-        }
-        // Check for "Last [DayOfWeek]" (within 7 days past, excluding yesterday already covered)
-        else if (diffDays < 0 && diffDays >= -7) {
-            dateLabel = `Schedule for Last ${dayOfWeek} (${monthDay})`;
-        }
-        // For anything else (more than 7 days away), use the full date
-        else {
-            dateLabel = `Schedule for ${dayOfWeek}, ${fullMonthDayYear}`;
-        }
+      // Check for "This [DayOfWeek]" (within 7 days future, excluding today/tomorrow already covered)
+      if (diffDays > 0 && diffDays <= 7) {
+        dateLabel = `Schedule for This ${dayOfWeek} (${monthDay})`;
+      }
+      // Check for "Last [DayOfWeek]" (within 7 days past, excluding yesterday already covered)
+      else if (diffDays < 0 && diffDays >= -7) {
+        dateLabel = `Schedule for Last ${dayOfWeek} (${monthDay})`;
+      }
+      // For anything else (more than 7 days away), use the full date
+      else {
+        dateLabel = `Schedule for ${dayOfWeek}, ${fullMonthDayYear}`;
+      }
     }
     // --- End: Relative Date Indicator Logic ---
 
@@ -396,8 +389,8 @@
     const sortedLocations = Object.keys(groupedData).sort();
 
     if (sortedLocations.length === 0) {
-        tablesContainer.innerHTML = "<p>No schedule data available for the selected date.</p>";
-        return;
+      tablesContainer.innerHTML = "<p>No schedule data available for the selected date.</p>";
+      return;
     }
 
     sortedLocations.forEach(location => {
@@ -424,43 +417,46 @@
     });
   }
 
-  // Initial data fetch and setup when the page loads (modified 2025-07-04)
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('test.json') // STEP 1: Fetch the list of schedule filenames
-    .then(response => {
-      // ... error check ...
-      return response.json(); // This returns ["2025-06-01.json", "2025-07-06.json"]
-    })
-    .then(fileNames => {
-      // STEP 2: Create an array of Promises, each fetching one of the schedule files
-      const fetchPromises = fileNames.map(fileName =>
-        fetch(fileName)
-          .then(res => {
-            // ... error check for individual file ...
-            return res.json(); // Each of these returns the schedule data for that file
-          })
-          .catch(err => {
-            console.error(`Error fetching ${fileName}:`, err);
-            return []; // Important: Return an empty array on error so Promise.all doesn't fail
-          })
-      );
-      // STEP 3: Wait for all individual file fetches to complete
-      return Promise.all(fetchPromises);
-    })
-    .then(allSchedules => {
-      // STEP 4: Flatten the array of arrays into a single array
-      // If 2025-06-01.json returns [obj1, obj2] and 2025-07-06.json returns [obj3, obj4],
-      // allSchedules would be [[obj1, obj2], [obj3, obj4]].
-      // .flat() converts it to [obj1, obj2, obj3, obj4].
-      scheduleData = allSchedules.flat();
-      initControls();
-      generateSchedule();
-    })
-    .catch(err => {
-      console.error('Error in fetching or processing schedule files:', err);
-      // ... updated error handling for multi-step fetch
-    });
-});
+  // Initial data fetch and setup when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('test.json') // STEP 1: Fetch the list of schedule filenames
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(fileNames => {
+        // STEP 2: Create an array of Promises, each fetching one of the schedule files
+        const fetchPromises = fileNames.map(fileName =>
+          fetch(fileName)
+            .then(res => {
+              if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status} for file: ${fileName}`);
+              }
+              return res.json();
+            })
+            .catch(err => {
+              console.error(`Error fetching ${fileName}:`, err);
+              return []; // Return an empty array on error so Promise.all doesn't fail
+            })
+        );
+        // STEP 3: Wait for all individual file fetches to complete
+        return Promise.all(fetchPromises);
+      })
+      .then(allSchedules => {
+        // STEP 4: Flatten the array of arrays into a single array
+        scheduleData = allSchedules.flat();
+        // IMPORTANT: Call initControls and generateSchedule only AFTER scheduleData is fully populated
+        initControls();
+        generateSchedule();
+      })
+      .catch(err => {
+        console.error('Error in fetching or processing schedule files:', err);
+        // Display a user-friendly error message if data cannot be loaded
+        document.getElementById('tables-container').innerHTML = "<p>Error loading schedule data. Please try again later.</p>";
+      });
+  });
 </script>
 
 </body>
