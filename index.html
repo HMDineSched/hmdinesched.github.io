@@ -424,27 +424,43 @@
     });
   }
 
-  // Initial data fetch and setup when the page loads
-  document.addEventListener('DOMContentLoaded', () => {
-    fetch('schedule.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        scheduleData = data;
-        initControls();
-        generateSchedule();
-      })
-      .catch(err => {
-        console.error('Error loading or parsing schedule.json:', err);
-        document.getElementById("tables-container").innerHTML = `<p style="color: red;">Failed to load schedule data. Please check the console for errors.</p>`;
-        document.getElementById("quick-view-list").innerHTML = `<li>Failed to load schedule.</li>`;
-        document.getElementById("week-label").textContent = `Error loading schedule`;
-      });
-  });
+  // Initial data fetch and setup when the page loads (modified 2025-07-04)
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('test.json') // STEP 1: Fetch the list of schedule filenames
+    .then(response => {
+      // ... error check ...
+      return response.json(); // This returns ["2025-06-01.json", "2025-07-06.json"]
+    })
+    .then(fileNames => {
+      // STEP 2: Create an array of Promises, each fetching one of the schedule files
+      const fetchPromises = fileNames.map(fileName =>
+        fetch(fileName)
+          .then(res => {
+            // ... error check for individual file ...
+            return res.json(); // Each of these returns the schedule data for that file
+          })
+          .catch(err => {
+            console.error(`Error fetching ${fileName}:`, err);
+            return []; // Important: Return an empty array on error so Promise.all doesn't fail
+          })
+      );
+      // STEP 3: Wait for all individual file fetches to complete
+      return Promise.all(fetchPromises);
+    })
+    .then(allSchedules => {
+      // STEP 4: Flatten the array of arrays into a single array
+      // If 2025-06-01.json returns [obj1, obj2] and 2025-07-06.json returns [obj3, obj4],
+      // allSchedules would be [[obj1, obj2], [obj3, obj4]].
+      // .flat() converts it to [obj1, obj2, obj3, obj4].
+      scheduleData = allSchedules.flat();
+      initControls();
+      generateSchedule();
+    })
+    .catch(err => {
+      console.error('Error in fetching or processing schedule files:', err);
+      // ... updated error handling for multi-step fetch
+    });
+});
 </script>
 
 </body>
