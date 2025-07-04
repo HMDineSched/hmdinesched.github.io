@@ -324,38 +324,40 @@
     const quickViewList = document.getElementById("quick-view-list");
     const tablesContainer = document.getElementById("tables-container");
 
-        // --- Start: Relative Date Indicator Logic ---
+    // --- Start: Relative Date Indicator Logic ---
     // Get current date, normalized to UTC midnight for consistent comparison
     const now = new Date();
     const todayUtcMidnight = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
-    // Parse selected date string into a Date object, normalized to UTC midnight for consistent comparison
-    const selectedDateParts = selectedDate.split('-').map(Number); // [year, month, day]
-    // Month is 0-indexed for Date.UTC, so subtract 1 from the month part
-    const selectedDateUtcMidnight = new Date(Date.UTC(selectedDateParts[0], selectedDateParts[1] - 1, selectedDateParts[2]));
+    // Parse selected date string into year, month, day
+    const selectedDateParts = selectedDate.split('-').map(Number);
+    const selectedYear = selectedDateParts[0];
+    const selectedMonth = selectedDateParts[1] - 1; // Month is 0-indexed for Date.UTC
+    const selectedDay = selectedDateParts[2];
+
+    // Create a UTC Date object representing the start of the selected day in Mesa's timezone (UTC-7)
+    // 00:00:00 in Mesa is 07:00:00 UTC (since Mesa is UTC-7).
+    // This 'selectedDateInMesaTimezone' is what we'll use for accurate formatting.
+    const selectedDateInMesaTimezone = new Date(Date.UTC(selectedYear, selectedMonth, selectedDay, 7, 0, 0));
+
+    // Calculate diffDays using the UTC midnight of the selected date (from previous approach)
+    // This is still good for consistent "Today/Tomorrow/Yesterday" logic relative to current UTC day.
+    // We retain this specific UTC midnight date for numerical day differences.
+    const selectedDateUtcMidnight = new Date(Date.UTC(selectedYear, selectedMonth, selectedDay));
+    const diffMs = selectedDateUtcMidnight.getTime() - todayUtcMidnight.getTime();
+    const diffDays = Math.round(diffMs / oneDayMs);
 
     let dateLabel = `Schedule for ${selectedDate}`; // Default to full date string
-
     const oneDayMs = 24 * 60 * 60 * 1000; // milliseconds in a day
 
-    // Calculate difference in days using UTC midnights. This will be a precise integer for full day differences.
-    const diffMs = selectedDateUtcMidnight.getTime() - todayUtcMidnight.getTime();
-    const diffDays = Math.round(diffMs / oneDayMs); // Use Math.round for safety against tiny floating point errors
-
-    // --- REVISED: Create a date object specifically for display formatting in Mesa's timezone ---
-    // By using 'T12:00:00', we ensure the date is always within the correct day
-    // when interpreted in America/Phoenix timezone, avoiding the midnight boundary issue.
-    const dateForDisplayFormatting = new Date(selectedDate + 'T12:00:00');
-
+    // Use selectedDateInMesaTimezone for formatting day of week, month, and year correctly
     const optionsWeekday = { weekday: 'long', timeZone: 'America/Phoenix' };
     const optionsMonthDay = { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' };
     const optionsFull = { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' };
 
-    const dayOfWeek = dateForDisplayFormatting.toLocaleString('en-US', optionsWeekday);
-    const monthDay = dateForDisplayFormatting.toLocaleString('en-US', optionsMonthDay);
-    const fullMonthDayYear = dateForDisplayFormatting.toLocaleString('en-US', optionsFull);
-    // --- END REVISED ---
-
+    const dayOfWeek = selectedDateInMesaTimezone.toLocaleString('en-US', optionsWeekday);
+    const monthDay = selectedDateInMesaTimezone.toLocaleString('en-US', optionsMonthDay);
+    const fullMonthDayYear = selectedDateInMesaTimezone.toLocaleString('en-US', optionsFull);
 
     if (diffDays === 0) {
         dateLabel = `Schedule for Today (${selectedDate})`;
