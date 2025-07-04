@@ -324,7 +324,7 @@
     const quickViewList = document.getElementById("quick-view-list");
     const tablesContainer = document.getElementById("tables-container");
 
-    // --- Start: Relative Date Indicator Logic (REVISED in previous response) ---
+        // --- Start: Relative Date Indicator Logic ---
     // Get current date, normalized to UTC midnight for consistent comparison
     const now = new Date();
     const todayUtcMidnight = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
@@ -342,31 +342,40 @@
     const diffMs = selectedDateUtcMidnight.getTime() - todayUtcMidnight.getTime();
     const diffDays = Math.round(diffMs / oneDayMs); // Use Math.round for safety against tiny floating point errors
 
-    if (diffDays === 0) {
-      dateLabel = `Schedule for Today (${selectedDate})`;
-    } else if (diffDays === 1) {
-      dateLabel = `Schedule for Tomorrow (${selectedDate})`;
-    } else if (diffDays === -1) {
-      dateLabel = `Schedule for Yesterday (${selectedDate})`;
-    } else {
-      // Format display strings using 'America/Phoenix' (Mesa's timezone)
-      // This ensures day of week is correct for the schedule's location, not user's browser TZ.
-      const dayOfWeek = selectedDateUtcMidnight.toLocaleString('en-US', { weekday: 'long', timeZone: 'America/Phoenix' });
-      const monthDay = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' });
-      const fullMonthDayYear = selectedDateUtcMidnight.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' });
+    // --- REVISED: Create a date object specifically for display formatting in Mesa's timezone ---
+    // By using 'T12:00:00', we ensure the date is always within the correct day
+    // when interpreted in America/Phoenix timezone, avoiding the midnight boundary issue.
+    const dateForDisplayFormatting = new Date(selectedDate + 'T12:00:00');
 
-      // Check for "This [DayOfWeek]" (within 7 days future, excluding today/tomorrow already covered)
-      if (diffDays > 0 && diffDays <= 7) {
-        dateLabel = `Schedule for This ${dayOfWeek} (${monthDay})`;
-      }
-      // Check for "Last [DayOfWeek]" (within 7 days past, excluding yesterday already covered)
-      else if (diffDays < 0 && diffDays >= -7) {
-        dateLabel = `Schedule for Last ${dayOfWeek} (${monthDay})`;
-      }
-      // For anything else (more than 7 days away), use the full date
-      else {
-        dateLabel = `Schedule for ${dayOfWeek}, ${fullMonthDayYear}`;
-      }
+    const optionsWeekday = { weekday: 'long', timeZone: 'America/Phoenix' };
+    const optionsMonthDay = { month: 'numeric', day: 'numeric', timeZone: 'America/Phoenix' };
+    const optionsFull = { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'America/Phoenix' };
+
+    const dayOfWeek = dateForDisplayFormatting.toLocaleString('en-US', optionsWeekday);
+    const monthDay = dateForDisplayFormatting.toLocaleString('en-US', optionsMonthDay);
+    const fullMonthDayYear = dateForDisplayFormatting.toLocaleString('en-US', optionsFull);
+    // --- END REVISED ---
+
+
+    if (diffDays === 0) {
+        dateLabel = `Schedule for Today (${selectedDate})`;
+    } else if (diffDays === 1) {
+        dateLabel = `Schedule for Tomorrow (${selectedDate})`;
+    } else if (diffDays === -1) {
+        dateLabel = `Schedule for Yesterday (${selectedDate})`;
+    } else {
+        // Check for "This [DayOfWeek]" (within 7 days future, excluding today/tomorrow already covered)
+        if (diffDays > 0 && diffDays <= 7) {
+            dateLabel = `Schedule for This ${dayOfWeek} (${monthDay})`;
+        }
+        // Check for "Last [DayOfWeek]" (within 7 days past, excluding yesterday already covered)
+        else if (diffDays < 0 && diffDays >= -7) {
+            dateLabel = `Schedule for Last ${dayOfWeek} (${monthDay})`;
+        }
+        // For anything else (more than 7 days away), use the full date
+        else {
+            dateLabel = `Schedule for ${dayOfWeek}, ${fullMonthDayYear}`;
+        }
     }
     // --- End: Relative Date Indicator Logic ---
 
