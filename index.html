@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mesa Schedule Viewer</title>
-    <style>
-        body { font-family: sans-serif; margin: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        .controls { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; }
-        .schedule-section { margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
-        h2 { color: #333; }
-        ul { list-style: none; padding: 0; }
-        li { background-color: #f0f0f0; margin-bottom: 10px; padding: 10px; border-radius: 5px; }
-        li strong { color: #0056b3; }
-    </style>
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fellowship Square – Historic Mesa Schedule</title>
+  <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div class="container">
-        <h1>Mesa Event Schedule</h1>
 
-        <div class="controls">
-            <p><strong>Test Bed Controls:</strong></p>
-            <label for="simulationDate">Simulate Date (YYYY-MM-DD HH:MM:SS):</label>
-            <input type="datetime-local" id="simulationDate" step="1" value="2025-07-04T07:15:43">
-            <button id="applySimulation">Apply Simulation & Refresh</button>
-            <button id="resetToLive">Reset to Live Time</button>
-            <p>
-                <small>
-                    Current (Simulated/Live) Time: <strong id="currentTimeDisplay"></strong><br>
-                    Date Files to Fetch: <strong id="filesToFetchDisplay"></strong>
-                </small>
-            </p>
-        </div>
+  <div class="header-outer-container">
+      <div class="left-header-group">
+          <h1>Fellowship Square</h1>
+          <span class="subtitle">Historic Mesa Dine Schedule</span>
+      </div>
+      <div class="right-disclaimer-box">
+          <div id="schedule-disclaimer">
+              <p><em>This schedule is here to help us all stay in sync. For the latest updates, please check in with your team.</em></p>
+          </div>
+      </div>
+  </div>
 
-        <div id="scheduleOutput">
-            <p>Loading schedule...</p>
-        </div>
-    </div>
+  <div id="controls">
+    <label for="date-picker">Date:</label>
+    <input type="date" id="date-picker" />
 
-    <script type="module" src="app.js"></script>
-</body>
+    <label for="location-select">Location:</label>
+    <select id="location-select"></select>
+  </div>
+
+  <div id="week-label" style="font-size: 1.2em; font-weight: bold; margin-bottom: 1em;"></div>
+
+  <div id="quick-view">
+    <strong>Quick View</strong>
+    <ul id="quick-view-list"></ul>
+  </div>
+
+  <div id="tables-container"></div>
+
+  <script src="script.js"></script> </body>
 </html>
