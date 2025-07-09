@@ -58,7 +58,7 @@ body {
 
 /* Disclaimer Text Styling */
 #schedule-disclaimer {
-  font-size: 0.5em; /* Even smaller font for the disclaimer */
+  font-size: 0.7em; /* Even smaller font for the disclaimer */
   color: #666;
   word-wrap: break-word; /* Ensures long words break */
   overflow-wrap: break-word; /* Modern equivalent */
@@ -124,7 +124,7 @@ body {
   }
 
   #schedule-disclaimer {
-    font-size: 0.8em; /* Slightly larger disclaimer font when stacked */
+    font-size: 0.7em; /* Slightly larger disclaimer font when stacked */
     text-align: center; /* Center disclaimer text when stacked */
   }
 
