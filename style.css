@@ -74,9 +74,9 @@ body {
     position: absolute;
     /* Position the credit relative to the bottom right of the disclaimer box */
     /* This value will need fine-tuning based on the final size and position of your disclaimer box */
-    bottom: 5px; /* Adjust as needed, positive values move it up from the bottom of the container */
+    bottom: 2px; /* Adjust as needed, positive values move it up from the bottom of the container */
     right: 360px; /* Adjust based on the width of your .right-disclaimer-box + desired margin */
-    font-size: 0.7em; /* Make the text smaller to fit in the margin */
+    font-size: 0.6em; /* Make the text smaller to fit in the margin */
     color: #888; /* A subtle color */
     white-space: nowrap; /* Prevents the text from wrapping */
     z-index: 10; /* Ensure it's on top of other elements if there's any overlap */
