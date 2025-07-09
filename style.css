@@ -1,4 +1,4 @@
-body {
+Body {
   font-family: sans-serif;
   margin: 2em; /* Keep some margin around the body content */
   background-color: #f4f4f4;
@@ -69,17 +69,16 @@ body {
     font-style: italic; /* Keep the italic style */
 }
 
-/* Credit text styling */
+/* --- NEW CREDIT STYLES START HERE (for larger screens) --- */
 .credit {
     position: absolute;
-    /* Position the credit relative to the bottom right of the disclaimer box */
-    /* This value will need fine-tuning based on the final size and position of your disclaimer box */
-    bottom: 2px; /* Adjust as needed, positive values move it up from the bottom of the container */
-    right: 360px; /* Adjust based on the width of your .right-disclaimer-box + desired margin */
-    font-size: 0.6em; /* Make the text smaller to fit in the margin */
-    color: #888; /* A subtle color */
-    white-space: nowrap; /* Prevents the text from wrapping */
-    z-index: 10; /* Ensure it's on top of other elements if there's any overlap */
+    /* Adjust these values to fine-tune placement based on your disclaimer box and desired margin */
+    bottom: 5px; /* Aligns with the bottom of the header container, adjust up/down */
+    right: 360px; /* Aligns to the left of the 350px wide disclaimer + 10px gap */
+    font-size: 0.7em; /* Smaller font size for the credit */
+    color: #888; /* Subtle color */
+    white-space: nowrap; /* Prevent text from wrapping */
+    z-index: 10; /* Ensure it's on top of other elements if overlap occurs */
 }
 
 .credit a {
@@ -90,21 +89,7 @@ body {
 .credit a:hover {
     text-decoration: underline; /* Add underline on hover */
 }
-
-/* Media Queries for Responsiveness: Adjust layout when screen is narrower */
-@media (max-width: 768px) {
-    /* Existing media query rules... */
-
-    .credit {
-        position: static; /* Remove absolute positioning on small screens */
-        text-align: center; /* Center the text when stacked */
-        margin-top: -0.5em; /* Pull it slightly closer to the disclaimer if desired */
-        margin-bottom: 1em; /* Add space below it */
-        right: auto; /* Reset right property */
-        bottom: auto; /* Reset bottom property */
-        width: 100%; /* Take full width */
-    }
-}
+/* --- NEW CREDIT STYLES END HERE --- */
 
 
 /* Media Queries for Responsiveness: Adjust layout when screen is narrower */
@@ -145,7 +130,22 @@ body {
 
   .right-disclaimer-box {
       padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
+      margin-bottom: 0.5em; /* Reduce space below disclaimer on mobile */
   }
+
+  /* --- NEW CREDIT MEDIA QUERY STYLES START HERE (for smaller screens) --- */
+  .credit {
+      position: static; /* Remove absolute positioning on small screens */
+      text-align: center; /* Center the text when stacked */
+      margin-top: 0.2em; /* Adjust top margin for tighter spacing */
+      margin-bottom: 0.2em; /* Adjust bottom margin for tighter spacing */
+      padding: 0; /* Ensure no internal padding adds space */
+      right: auto; /* Reset right property from absolute positioning */
+      bottom: auto; /* Reset bottom property from absolute positioning */
+      width: 100%; /* Take full width */
+      font-size: 0.7em; /* Keep the smaller font size */
+  }
+  /* --- NEW CREDIT MEDIA QUERY STYLES END HERE --- */
 }
 
 /* --- Start of previously misplaced CSS for controls, quick-view, table --- */
