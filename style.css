@@ -10,7 +10,7 @@ margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
   position: relative; /* Essential for positioning children absolutely */
   width: 100%;
   min-height: 80px; /* Ensure enough height for elements to be positioned */
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
   box-sizing: border-box; /* Include padding in width/height calculation */
   padding: 0 0.5em; /* Small horizontal padding */
 }
