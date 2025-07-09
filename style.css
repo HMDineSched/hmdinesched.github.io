@@ -69,6 +69,44 @@ body {
     font-style: italic; /* Keep the italic style */
 }
 
+/* Credit text styling */
+.credit {
+    position: absolute;
+    /* Position the credit relative to the bottom right of the disclaimer box */
+    /* This value will need fine-tuning based on the final size and position of your disclaimer box */
+    bottom: 5px; /* Adjust as needed, positive values move it up from the bottom of the container */
+    right: 360px; /* Adjust based on the width of your .right-disclaimer-box + desired margin */
+    font-size: 0.7em; /* Make the text smaller to fit in the margin */
+    color: #888; /* A subtle color */
+    white-space: nowrap; /* Prevents the text from wrapping */
+    z-index: 10; /* Ensure it's on top of other elements if there's any overlap */
+}
+
+.credit a {
+    color: #888; /* Match the credit text color */
+    text-decoration: none; /* Remove underline by default */
+}
+
+.credit a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Media Queries for Responsiveness: Adjust layout when screen is narrower */
+@media (max-width: 768px) {
+    /* Existing media query rules... */
+
+    .credit {
+        position: static; /* Remove absolute positioning on small screens */
+        text-align: center; /* Center the text when stacked */
+        margin-top: -0.5em; /* Pull it slightly closer to the disclaimer if desired */
+        margin-bottom: 1em; /* Add space below it */
+        right: auto; /* Reset right property */
+        bottom: auto; /* Reset bottom property */
+        width: 100%; /* Take full width */
+    }
+}
+
+
 /* Media Queries for Responsiveness: Adjust layout when screen is narrower */
 @media (max-width: 768px) { /* Adjust breakpoint as needed */
   .header-outer-container {
