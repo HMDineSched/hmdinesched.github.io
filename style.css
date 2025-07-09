@@ -75,7 +75,7 @@ margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
     /* Adjust these values to fine-tune placement based on your disclaimer box and desired margin */
     bottom: 5px; /* Aligns with the bottom of the header container, adjust up/down */
     right: 360px; /* Aligns to the left of the 350px wide disclaimer + 10px gap */
-    font-size: 0.7em; /* Smaller font size for the credit */
+    font-size: 0.8em; /* Smaller font size for the credit */
     color: #888; /* Subtle color */
     white-space: nowrap; /* Prevent text from wrapping */
     z-index: 10; /* Ensure it's on top of other elements if overlap occurs */
@@ -138,12 +138,12 @@ margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
       position: static; /* Remove absolute positioning on small screens */
       text-align: center; /* Center the text when stacked */
       margin-top: 0.2em; /* Adjust top margin for tighter spacing */
-      margin-bottom: 0.2em; /* Adjust bottom margin for tighter spacing */
+      margin-bottom: 0.1em; /* Adjust bottom margin for tighter spacing */
       padding: 0; /* Ensure no internal padding adds space */
       right: auto; /* Reset right property from absolute positioning */
       bottom: auto; /* Reset bottom property from absolute positioning */
       width: 100%; /* Take full width */
-      font-size: 0.7em; /* Keep the smaller font size */
+      font-size: 0.8em; /* Keep the smaller font size */
   }
   /* --- NEW CREDIT MEDIA QUERY STYLES END HERE --- */
 }
