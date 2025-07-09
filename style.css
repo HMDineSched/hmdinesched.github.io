@@ -1,6 +1,6 @@
 Body {
   font-family: sans-serif;
-margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
+margin: 1em 2em 2em 2em; /* Keep some margin around the body content */
   background-color: #f4f4f4;
   color: #333;
 }
@@ -137,8 +137,8 @@ margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
   .credit {
       position: static; /* Remove absolute positioning on small screens */
       text-align: center; /* Center the text when stacked */
-      margin-top: 0.2em; /* Adjust top margin for tighter spacing */
-      margin-bottom: 0.1em; /* Adjust bottom margin for tighter spacing */
+      margin-top: 0.12em; /* Adjust top margin for tighter spacing */
+      margin-bottom: 0.12em; /* Adjust bottom margin for tighter spacing */
       padding: 0; /* Ensure no internal padding adds space */
       right: auto; /* Reset right property from absolute positioning */
       bottom: auto; /* Reset bottom property from absolute positioning */
