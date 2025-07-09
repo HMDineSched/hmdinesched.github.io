@@ -1,6 +1,6 @@
-Body {
+body {
   font-family: sans-serif;
-margin: 1em; /* Keep some margin around the body content */
+  margin: 1em; /* Keep some margin around the body content */
   background-color: #f4f4f4;
   color: #333;
 }
@@ -65,35 +65,35 @@ margin: 1em; /* Keep some margin around the body content */
 }
 
 #schedule-disclaimer p {
-    margin: 0; /* Remove default margin from paragraph */
-    font-style: italic; /* Keep the italic style */
+  margin: 0; /* Remove default margin from paragraph */
+  font-style: italic; /* Keep the italic style */
 }
 
 /* --- NEW CREDIT STYLES START HERE (for larger screens) --- */
 .credit {
-    position: absolute;
-    /* Adjust these values to fine-tune placement based on your disclaimer box and desired margin */
-    bottom: 5px; /* Aligns with the bottom of the header container, adjust up/down */
-    right: 360px; /* Aligns to the left of the 350px wide disclaimer + 10px gap */
-    font-size: 0.8em; /* Smaller font size for the credit */
-    color: #888; /* Subtle color */
-    white-space: nowrap; /* Prevent text from wrapping */
-    z-index: 10; /* Ensure it's on top of other elements if overlap occurs */
+  position: absolute;
+  /* Adjust these values to fine-tune placement based on your disclaimer box and desired margin */
+  bottom: 5px; /* Aligns with the bottom of the header container, adjust up/down */
+  right: 360px; /* Aligns to the left of the 350px wide disclaimer + 10px gap */
+  font-size: 0.8em; /* Smaller font size for the credit */
+  color: #888; /* Subtle color */
+  white-space: nowrap; /* Prevent text from wrapping */
+  z-index: 10; /* Ensure it's on top of other elements if overlap occurs */
 }
 
 .credit a {
-    color: #888; /* Match the credit text color */
-    text-decoration: none; /* Remove underline by default */
+  color: #888; /* Match the credit text color */
+  text-decoration: none; /* Remove underline by default */
 }
 
 .credit a:hover {
-    text-decoration: underline; /* Add underline on hover */
+  text-decoration: underline; /* Add underline on hover */
 }
 /* --- NEW CREDIT STYLES END HERE --- */
 
-
 /* Media Queries for Responsiveness: Adjust layout when screen is narrower */
-@media (max-width: 768px) { /* Adjust breakpoint as needed */
+@media (max-width: 768px) {
+  /* Adjust breakpoint as needed */
   .header-outer-container {
     position: static; /* Remove absolute positioning on small screens */
     min-height: auto;
@@ -129,42 +129,55 @@ margin: 1em; /* Keep some margin around the body content */
   }
 
   .right-disclaimer-box {
-      padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
-      margin-bottom: 0.5em; /* Reduce space below disclaimer on mobile */
+    padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
+    margin-bottom: 0.5em; /* Reduce space below disclaimer on mobile */
   }
 
   /* --- NEW CREDIT MEDIA QUERY STYLES START HERE (for smaller screens) --- */
   .credit {
-      position: static; /* Remove absolute positioning on small screens */
-      text-align: center; /* Center the text when stacked */
-      margin-top: 0.12em; /* Adjust top margin for tighter spacing */
-      margin-bottom: 0.12em; /* Adjust bottom margin for tighter spacing */
-      padding: 0; /* Ensure no internal padding adds space */
-      right: auto; /* Reset right property from absolute positioning */
-      bottom: auto; /* Reset bottom property from absolute positioning */
-      width: 100%; /* Take full width */
-      font-size: 0.8em; /* Keep the smaller font size */
+    position: static; /* Remove absolute positioning on small screens */
+    text-align: center; /* Center the text when stacked */
+    margin-top: 0.12em; /* Adjust top margin for tighter spacing */
+    margin-bottom: 0.12em; /* Adjust bottom margin for tighter spacing */
+    padding: 0; /* Ensure no internal padding adds space */
+    right: auto; /* Reset right property from absolute positioning */
+    bottom: auto; /* Reset bottom property from absolute positioning */
+    width: 100%; /* Take full width */
+    font-size: 0.8em; /* Keep the smaller font size */
   }
   /* --- NEW CREDIT MEDIA QUERY STYLES END HERE --- */
 }
 
-/* --- Start of previously misplaced CSS for controls, quick-view, table --- */
+---
+
+## Tightening Control Interface
+
+The following CSS adjustments will make the date and location controls more compact:
+
+* **Smaller Font Sizes:** We'll reduce the `font-size` for the labels and the select/input elements.
+* **Reduced Padding:** The `padding` inside the select and input elements will be decreased.
+* **Tighter Gaps:** The `gap` between the elements in the `#controls` flex container will be reduced.
+* **Removed Max-width:** We'll remove the `max-width` on the select/input elements to allow them to scale more flexibly within the tighter layout.
+* **Reduced Controls Padding:** We'll slightly reduce the padding around the `#controls` container itself.
+
+```css
 #controls label {
   font-weight: 600;
   color: #34495e;
-  font-size: 1.05em;
+  font-size: 0.9em; /* Reduced font size */
 }
+
 #controls select,
 #controls input[type="date"] {
-  padding: 0.6em 0.8em;
+  padding: 0.4em 0.6em; /* Reduced padding */
   border: 1px solid #b2c2d2;
   border-radius: 5px;
-  font-size: 1em;
+  font-size: 0.9em; /* Reduced font size */
   color: #555;
   background-color: #fff;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   flex-grow: 1;
-  max-width: 200px;
+  /* Removed max-width: 200px; to allow tighter packing */
 }
 
 #controls select:focus,
@@ -179,21 +192,25 @@ margin: 1em; /* Keep some margin around the body content */
   border: 1px solid #ccc;
   padding: 1em;
   margin-bottom: 2em;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 #quick-view ul {
   list-style: none;
   padding-left: 0;
 }
+
 #quick-view li {
   padding: 0.3em 0;
 }
+
 table {
   width: 100%;
   margin: 2em 0;
   border-collapse: collapse;
   background: white;
 }
+
 caption {
   caption-side: top;
   font-weight: bold;
@@ -204,26 +221,31 @@ caption {
   background-color: #3498db;
   color: white;
 }
-th, td {
+
+th,
+td {
   border: 1px solid #ccc;
   padding: 0.6em;
   text-align: left;
 }
+
 th {
   background-color: #ecf0f1;
 }
+
 tr:nth-child(even) td {
   background-color: #f9f9f9;
 }
+
 #controls {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 1.5em;
+  gap: 0.8em; /* Reduced gap between elements */
   margin-bottom: 2em;
   background-color: #eaf2f8;
-  padding: 1em 1.5em;
+  padding: 0.8em 1em; /* Reduced padding for the container */
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
