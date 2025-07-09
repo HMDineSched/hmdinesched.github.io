@@ -238,7 +238,7 @@ tr:nth-child(even) td {
 }
 
 #controls {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
