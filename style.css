@@ -1,6 +1,6 @@
 Body {
   font-family: sans-serif;
-  margin: 2em; /* Keep some margin around the body content */
+margin: 0.5em 2em 2em 2em; /* Keep some margin around the body content */
   background-color: #f4f4f4;
   color: #333;
 }
