@@ -197,7 +197,7 @@ function generateSchedule() {
 
 // Initial data fetch and setup when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('test.json') // STEP 1: Fetch the list of schedule filenames
+  fetch('schedule.json') // STEP 1: Fetch the list of schedule filenames
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
