@@ -1,194 +1,169 @@
 body {
   font-family: sans-serif;
-  margin: 1em; /* Keep some margin around the body content */
-  background-color: #f4f4f4;
-  color: #333;
+  margin: 1em;
+  background-color: #fefcfb; /* Eggshell */
+  color: #2c2c2c; /* Deep charcoal */
 }
 
-/* Outer container for header and disclaimer - allows relative positioning */
 .header-outer-container {
-  position: relative; /* Essential for positioning children absolutely */
+  position: relative;
   width: 100%;
-  min-height: 80px; /* Ensure enough height for elements to be positioned */
+  min-height: 80px;
   margin-bottom: 0.1em;
-  box-sizing: border-box; /* Include padding in width/height calculation */
-  padding: 0 0.5em; /* Small horizontal padding */
+  box-sizing: border-box;
+  padding: 0 0.5em;
 }
 
-/* Left Header Group Styling */
 .left-header-group {
-  position: absolute; /* Position relative to .header-outer-container */
-  top: 0; /* Align to the very top */
-  left: 0; /* Align to the very left */
-  padding: 0; /* Remove any default padding */
-  margin: 0; /* Remove any default margin */
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
   text-align: left;
 }
 
-/* Main Header Title */
 .left-header-group h1 {
-  margin: 0; /* Remove default margins for precise placement */
-  font-size: 1.2em; /* Slightly larger for main title */
-  font-weight: normal; /* Keep it normal weight */
-  line-height: 1; /* Tighten line height */
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: normal;
+  line-height: 1;
+  color: #4a148c; /* Plum */
 }
 
-/* Subtitle "Historic Mesa" */
 .left-header-group .subtitle {
-  display: block; /* Ensure it takes its own line */
-  font-size: 0.8em; /* Smaller font */
-  opacity: 0.7;
-  margin-top: 0.2em; /* Small space below main title */
-  padding-left: 2em; /* Offset to the right */
+  display: block;
+  font-size: 0.8em;
+  opacity: 0.85;
+  margin-top: 0.2em;
+  padding-left: 2em;
+  color: #7b1fa2; /* Soft purple */
 }
 
-/* Right Disclaimer Box Styling */
 .right-disclaimer-box {
-  position: absolute; /* Position relative to .header-outer-container */
-  bottom: 0; /* Align to the very bottom */
-  right: 0; /* Align to the very right */
-  max-width: 350px; /* Control width of the disclaimer box */
-  box-sizing: border-box; /* Include padding in width calculation */
-  border: 1px solid #ccc; /* A border for the box */
-  padding: 0.8em 1em; /* Padding inside the box */
-  border-radius: 5px; /* Slightly rounded corners for the box */
-  background-color: #f9f9f9; /* Light background for the box */
-  text-align: right; /* Align disclaimer text to the right within its box */
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  max-width: 350px;
+  box-sizing: border-box;
+  border: 1px solid #cfd8dc;
+  padding: 0.8em 1em;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  text-align: right;
 }
 
-/* Disclaimer Text Styling */
 #schedule-disclaimer {
-  font-size: 0.7em; /* Even smaller font for the disclaimer */
-  color: #666;
-  word-wrap: break-word; /* Ensures long words break */
-  overflow-wrap: break-word; /* Modern equivalent */
+  font-size: 0.7em;
+  color: #546e7a; /* Cool gray-blue */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 #schedule-disclaimer p {
-  margin: 0; /* Remove default margin from paragraph */
-  font-style: italic; /* Keep the italic style */
+  margin: 0;
+  font-style: italic;
 }
 
-/* --- NEW CREDIT STYLES START HERE (for larger screens) --- */
 .credit {
   position: absolute;
-  /* Adjust these values to fine-tune placement based on your disclaimer box and desired margin */
-  bottom: 5px; /* Aligns with the bottom of the header container, adjust up/down */
-  right: 360px; /* Aligns to the left of the 350px wide disclaimer + 10px gap */
-  font-size: 0.8em; /* Smaller font size for the credit */
-  color: #888; /* Subtle color */
-  white-space: nowrap; /* Prevent text from wrapping */
-  z-index: 10; /* Ensure it's on top of other elements if overlap occurs */
+  bottom: 5px;
+  right: 360px;
+  font-size: 0.8em;
+  color: #546e7a;
+  white-space: nowrap;
+  z-index: 10;
 }
 
 .credit a {
-  color: #888; /* Match the credit text color */
-  text-decoration: none; /* Remove underline by default */
+  color: #546e7a;
+  text-decoration: none;
 }
 
 .credit a:hover {
-  text-decoration: underline; /* Add underline on hover */
+  text-decoration: underline;
 }
-/* --- NEW CREDIT STYLES END HERE --- */
 
-/* Media Queries for Responsiveness: Adjust layout when screen is narrower */
 @media (max-width: 768px) {
-  /* Adjust breakpoint as needed */
   .header-outer-container {
-    position: static; /* Remove absolute positioning on small screens */
+    position: static;
     min-height: auto;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center items horizontally when stacked */
+    align-items: center;
     text-align: center;
   }
 
   .left-header-group,
   .right-disclaimer-box {
-    position: static; /* Remove absolute positioning */
-    width: 100%; /* Take full width */
+    position: static;
+    width: 100%;
     max-width: 100%;
-    margin-bottom: 1em; /* Add space between stacked elements */
-    text-align: center; /* Center text when stacked */
-    padding: 0; /* Remove specific padding for the main elements */
+    margin-bottom: 1em;
+    text-align: center;
+    padding: 0;
   }
 
   .left-header-group h1 {
-    font-size: 1.5em; /* Larger when stacked for better prominence */
-    font-weight: bold; /* Make it bold again when stacked */
+    font-size: 1.5em;
+    font-weight: bold;
   }
 
   .left-header-group .subtitle {
-    padding-left: 0; /* Remove offset when stacked */
-    display: inline; /* Can be inline with main title if preferred, or block */
+    padding-left: 0;
+    display: inline;
   }
 
   #schedule-disclaimer {
-    font-size: 0.7em; /* Slightly larger disclaimer font when stacked */
-    text-align: center; /* Center disclaimer text when stacked */
+    font-size: 0.7em;
+    text-align: center;
   }
 
   .right-disclaimer-box {
-    padding: 0.8em 1em; /* Restore padding for the disclaimer box itself */
-    margin-bottom: 0.5em; /* Reduce space below disclaimer on mobile */
+    padding: 0.8em 1em;
+    margin-bottom: 0.5em;
   }
 
-  /* --- NEW CREDIT MEDIA QUERY STYLES START HERE (for smaller screens) --- */
   .credit {
-    position: static; /* Remove absolute positioning on small screens */
-    text-align: center; /* Center the text when stacked */
-    margin-top: 0.12em; /* Adjust top margin for tighter spacing */
-    margin-bottom: 0.12em; /* Adjust bottom margin for tighter spacing */
-    padding: 0; /* Ensure no internal padding adds space */
-    right: auto; /* Reset right property from absolute positioning */
-    bottom: auto; /* Reset bottom property from absolute positioning */
-    width: 100%; /* Take full width */
-    font-size: 0.8em; /* Keep the smaller font size */
+    position: static;
+    text-align: center;
+    margin-top: 0.12em;
+    margin-bottom: 0.12em;
+    padding: 0;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    font-size: 0.8em;
   }
-  /* --- NEW CREDIT MEDIA QUERY STYLES END HERE --- */
 }
 
----
-
-## Tightening Control Interface
-
-The following CSS adjustments will make the date and location controls more compact:
-
-* **Smaller Font Sizes:** We'll reduce the `font-size` for the labels and the select/input elements.
-* **Reduced Padding:** The `padding` inside the select and input elements will be decreased.
-* **Tighter Gaps:** The `gap` between the elements in the `#controls` flex container will be reduced.
-* **Removed Max-width:** We'll remove the `max-width` on the select/input elements to allow them to scale more flexibly within the tighter layout.
-* **Reduced Controls Padding:** We'll slightly reduce the padding around the `#controls` container itself.
-
-```css
 #controls label {
   font-weight: 600;
-  color: #34495e;
-  font-size: 0.9em; /* Reduced font size */
+  color: #004d40; /* Dark teal */
+  font-size: 0.9em;
 }
 
 #controls select,
 #controls input[type="date"] {
-  padding: 0.4em 0.6em; /* Reduced padding */
+  padding: 0.4em 0.6em;
   border: 1px solid #b2c2d2;
   border-radius: 5px;
-  font-size: 0.9em; /* Reduced font size */
-  color: #555;
-  background-color: #fff;
+  font-size: 0.9em;
+  color: #37474f;
+  background-color: #ffffff;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   flex-grow: 1;
-  /* Removed max-width: 200px; to allow tighter packing */
 }
 
 #controls select:focus,
 #controls input[type="date"]:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  border-color: #ab47bc; /* Pinkish lavender */
+  box-shadow: 0 0 0 3px rgba(171, 71, 188, 0.2);
   outline: none;
 }
 
 #quick-view {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   padding: 1em;
   margin-bottom: 2em;
@@ -218,7 +193,7 @@ caption {
   margin-bottom: 0.5em;
   text-align: left;
   padding: 0.5em;
-  background-color: #3498db;
+  background-color: #004d40; /* Dark teal */
   color: white;
 }
 
@@ -230,11 +205,11 @@ td {
 }
 
 th {
-  background-color: #ecf0f1;
+  background-color: #e0f2f1; /* Light teal-gray */
 }
 
 tr:nth-child(even) td {
-  background-color: #f9f9f9;
+  background-color: #f1f8e9; /* Light green for alt rows */
 }
 
 #controls {
@@ -242,10 +217,10 @@ tr:nth-child(even) td {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0.8em; /* Reduced gap between elements */
+  gap: 0.8em;
   margin-bottom: 2em;
-  background-color: #eaf2f8;
-  padding: 0.8em 1em; /* Reduced padding for the container */
+  background-color: #e3f2fd; /* Soft sky blue */
+  padding: 0.8em 1em;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
