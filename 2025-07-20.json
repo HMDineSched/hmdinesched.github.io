@@ -686,32 +686,32 @@
     "role": "N/A"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "ABEL",
     "date": "2025-07-25",
     "time": "8a-Close",
     "role": "TBD"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "ABEL",
     "date": "2025-07-26",
     "time": "8a-Close",
     "role": "TBD"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "CRYSTAL",
     "date": "2025-07-21",
     "time": "7a-4p",
-    "role": "Breakfast Server"
+    "role": "Breakfast"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "CRYSTAL",
     "date": "2025-07-22",
     "time": "7a-3p",
-    "role": "Breakfast Server"
+    "role": "Breakfast/West"
   },
   {
     "location": "West/Grand",
@@ -721,25 +721,25 @@
     "role": "N/A"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "CRYSTAL",
     "date": "2025-07-23",
     "time": "7a-4p",
-    "role": "Breakfast Server"
+    "role": "Breakfast"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "CRYSTAL",
     "date": "2025-07-25",
     "time": "7a-4p",
-    "role": "Breakfast Server"
+    "role": "Breakfast"
   },
   {
-    "location": "East",
+    "location": "Kitchen",
     "name": "CRYSTAL",
     "date": "2025-07-26",
     "time": "7a-4p",
-    "role": "Breakfast Server"
+    "role": "Breakfast"
   },
   {
     "location": "Kitchen",
