@@ -3,37 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo-Civic Mysticism: Agents of Ostara</title>
+    <title>Neo-Civic Mysticism: A Guild of Intelligence Without Surveillance</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=IBM+Plex+Mono:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="guild-header">
-        <h1 class="title">Neo-Civic Mysticism</h1>
-        <p class="subtitle">A Guild (Agents of Ostara) of Intelligence Without Surveillance</p>
-    </header>
+    <div class="container">
+        <header class="dashboard-header">
+            <h1>Neo-Civic Mysticism</h1>
+            <p>A Guild of Intelligence Without Surveillance</p>
+        </header>
 
-    <main class="dashboard-container">
-        <section class="codex-panel" id="civic-memory">
-            <h2><span class="icon">&#x26F6;</span> Civic Memory: The Open Ledger</h2>
-            <div class="scroll-content">
+        <div class="main-dashboard">
+            <aside class="sidebar">
+                <div class="panel codex-panel">
+                    <h2>Ostromian Codex</h2>
+                    <div class="codex-scrolls">
+                        <div class="scroll-item active" data-content="principles">
+                            <h3><span class="glyph">📜</span> Core Principles</h3>
+                            <p>Resource governance thrives on local knowledge, clear boundaries, and collective choice.</p>
+                        </div>
+                        <div class="scroll-item" data-content="stewardship">
+                            <h3><span class="glyph">💡</span> Stewardship Insights</h3>
+                            <p>Data is a communal resource, not a tool for control. Contribue insights, earn stewardship.</p>
+                        </div>
+                        <div class="scroll-item" data-content="contribution">
+                            <h3><span class="glyph">✨</span> Contribute & Affirm</h3>
+                            <p>Your contributions strengthen the civic fabric. Each insight is a thread of shared wisdom.</p>
+                        </div>
+                    </div>
+                    <div class="steward-points">
+                        Steward Points: <span id="stewardPoints">0</span>
+                        <button id="contributeInsightBtn" class="pulse-button">Contribute Insight</button>
+                    </div>
                 </div>
-        </section>
 
-        <section class="data-shrine-panel" id="federated-map">
-            <h2><span class="icon">&#x26A1;</span> Federated Intelligence Map Shrine</h2>
-            <div class="map-tiles">
+                <div class="panel activity-log-panel">
+                    <h2>Civic Activity Log</h2>
+                    <div class="activity-log" id="activityLog">
+                        </div>
+                    <button class="reveal-button" id="revealActivityBtn">Reveal More</button>
                 </div>
-            <p class="steward-points">Steward Points Earned: <span id="steward-count">0</span> <span class="icon">&#x2692;</span></p>
-        </section>
+            </aside>
 
-        <section class="control-panel" id="custom-dashboard">
-            <h2><span class="icon">&#x2699;</span> Personal Codex: Your Wisdom Runes</h2>
-            <div class="rune-drop-zone">
+            <section class="central-area">
+                <div class="panel map-shrine">
+                    <h2><span class="glyph">🗺️</span> Federated Intelligence Map Shrine</h2>
+                    <div id="mapTiles" class="map-grid">
+                        <div class="map-tile" data-region="northwood">Northwood Commons</div>
+                        <div class="map-tile" data-region="riverbend">Riverbend Flow</div>
+                        <div class="map-tile" data-region="sunstone">Sunstone Energy</div>
+                        <div class="map-tile" data-region="hilltop">Hilltop Reports</div>
+                    </div>
                 </div>
-            <div class="available-runes">
+
+                <div class="panel civic-data-dashboard">
+                    <h2><span class="glyph">📊</span> Local Intelligence Guild Dashboard</h2>
+                    <div class="data-modules" id="dataModules">
+                        <div class="data-module draggable" draggable="true" data-type="water">
+                            <h3><span class="glyph">💧</span> Water Levels</h3>
+                            <p id="waterLevel">Stable: 85% capacity</p>
+                            <p class="wisdom-layer">Deep aquifers show seasonal variations.</p>
+                        </div>
+                        <div class="data-module draggable" draggable="true" data-type="neighborhood">
+                            <h3><span class="glyph">🏡</span> Neighborhood Reports</h3>
+                            <p id="neighborhoodReports">3 new communal initiatives</p>
+                            <p class="wisdom-layer">Focus on shared garden plots.</p>
+                        </div>
+                        <div class="data-module draggable" draggable="true" data-type="energy">
+                            <h3><span class="glyph">⚡</span> Communal Energy Use</h3>
+                            <p id="energyUse">Peak: 120 kWh (down 5%)</p>
+                            <p class="wisdom-layer">Solar array contribution increased.</p>
+                        </div>
+                    </div>
+                    <div class="data-runes-area">
+                        <h3><span class="glyph">✨</span> Data Runes (Drag & Drop)</h3>
+                        <div id="dataRunes" class="data-runes-container">
+                            </div>
+                    </div>
                 </div>
-        </section>
-    </main>
+            </section>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
