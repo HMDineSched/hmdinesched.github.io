@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Demystifying JavaScript</h1>
+    </header>
+
+    <main>
+        <section class="intro-js">
+            <h2>What is JavaScript?</h2>
+            <p>JavaScript (JS) is a powerful, high-level, interpreted programming language primarily used for making web pages interactive. It allows you to implement complex features on web pages, such as interactive maps, animated graphics, and dynamic content updates.</p>
+            <p>It's one of the three core technologies of the World Wide Web, alongside HTML and CSS. While HTML defines the structure and CSS styles the appearance, JavaScript adds behavior and interactivity.</p>
+        </section>
+
+        <section class="js-module" id="forLoopModule">
+            <h2>The `for` Loop: Repetition in Action</h2>
+            <p>A `for` loop is used to iterate a block of code a certain number of times. Let's see it in action!</p>
+            <div class="code-display">
+                <pre><code id="forLoopCode"></code></pre>
+            </div>
+            <button id="startForLoop">Run For Loop Example</button>
+            <p id="forLoopExplanation" class="explanation"></p>
+        </section>
+
+        <section class="js-module" id="clickEventModule">
+            <h2>`addEventListener`: Responding to Interactions</h2>
+            <p>The `addEventListener()` method attaches an event handler to the specified element. When the event occurs, the function is executed.</p>
+            <button id="myButton">Click Me!</button>
+            <p id="clickEventExplanation" class="explanation"></p>
+            <div class="code-display">
+                <pre><code id="clickEventCode"></code></pre>
+            </div>
+        </section>
+
+        <section class="js-module" id="setTimeoutModule">
+            <h2>`setTimeout`: Time-Based Actions</h2>
+            <p>The `setTimeout()` method calls a function or evaluates an expression after a specified number of milliseconds. It's perfect for delaying actions.</p>
+            <button id="startTimeout">Start Timeout (Wait 3 seconds)</button>
+            <p id="timeoutMessage" class="explanation"></p>
+            <div class="code-display">
+                <pre><code id="setTimeoutCode"></code></pre>
+            </div>
+        </section>
+
+        <section class="js-module" id="domManipulationModule">
+            <h2>DOM Manipulation: JavaScript Sees the Page</h2>
+            <p>The Document Object Model (DOM) is a programming interface for web documents. It represents the page so that programs can change the document structure, style, and content. JavaScript uses the DOM to interact with HTML elements.</p>
+            <button id="manipulateDom">Reveal DOM Insight</button>
+            <div id="domInsight" class="explanation">
+                <p>Click the button to see how JavaScript can directly modify this page's content!</p>
+            </div>
+            <div class="code-display">
+                <pre><code id="domManipulationCode"></code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 JavaScript Explainer. Current date: July 23, 2025.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
