@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ultimate Flex Intro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --intro-animation-duration: 4s;
+            --intro-text-reveal-delay: 0.5s;
+            --intro-text-distort-duration: 2s;
+            --intro-fade-out-delay: 3.5s; /* When text starts to fade/shrink */
+            --intro-fade-out-duration: 1.5s;
+            --schedule-reveal-delay: 4.5s; /* When schedule appears */
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden; /* Hide scrollbars during animation */
+            background-color: #000; /* Deep black for contrast */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            font-family: sans-serif; /* Fallback */
+            perspective: 1000px; /* For 3D transforms */
+        }
+
+        /* Full-screen shimmering background (optional, but adds to flex) */
+        .shimmer-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0f0c29, #302b63, #24243e); /* Deep, rich gradient */
+            background-size: 400% 400%;
+            animation: shimmerGradient 15s ease infinite;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        @keyframes shimmerGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #intro-container {
+            position: relative;
+            z-index: 10; /* Above background */
+            font-family: 'Pacifico', cursive;
+            font-size: 4.5rem; /* Bigger for impact */
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 30px rgba(0, 255, 255, 0.5); /* Subtle glow */
+            opacity: 0; /* Starts invisible, JS will trigger reveal */
+            transform: scale(1);
+            transition: opacity var(--intro-fade-out-duration) ease-in-out,
+                        transform var(--intro-fade-out-duration) ease-in-out;
+            will-change: filter, opacity, transform; /* Optimize for animation */
+        }
+
+        #intro-container.revealing {
+            animation: text-reveal-opacity 0.5s ease-out forwards;
+        }
+
+        /* Apply SVG filter for distortion */
+        #intro-container.distorting {
+            filter: url(#goo); /* Initial distortion */
+            animation: distort-in var(--intro-text-distort-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        /* Final state of distortion animation (optional: can fade out distortion) */
+        @keyframes distort-in {
+            0% {
+                filter: url(#goo); /* Strong distortion */
+            }
+            100% {
+                filter: url(#clear); /* No distortion */
+            }
+        }
+
+        /* Simple opacity reveal for the text before distortion starts */
+        @keyframes text-reveal-opacity {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        #intro-container.fade-out {
+            opacity: 0;
+            transform: scale(0.8); /* Shrink slightly as it fades */
+            pointer-events: none;
+        }
+
+        #intro-container .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem; /* Larger subtitle */
+            display: block;
+            margin-top: 15px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        #schedule-interface {
+            position: absolute; /* Take over the screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex; /* Center content */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px); /* Slide up slightly */
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            z-index: 5; /* Below intro container initially */
+            background-color: #1a1a2e; /* Dark theme for schedule */
+            color: #eee;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #schedule-interface.reveal {
+            opacity: 1;
+            transform: translateY(0);
+            z-index: 15; /* Bring to front */
+            overflow-y: auto; /* Enable scrolling for schedule content */
+        }
+
+        /* Schedule specific styles for demo */
+        #schedule-interface h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00e6e6;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        #schedule-interface p {
+            font-family: sans-serif;
+            font-size: 1.2rem;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+        #schedule-interface ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            text-align: left;
+        }
+        #schedule-interface li {
+            background-color: rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 5px solid #00e6e6;
+            font-family: 'Pacifico', cursive; /* A touch of cursive here too */
+            font-size: 1.3rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <svg width="0" height="0">
+        <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 20 -7
+            " result="gooey" />
+            <feComposite in="SourceGraphic" in2="gooey" operator="atop"/>
+        </filter>
+        <filter id="clear">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 1 0
+            " result="clear-result" />
+            <feComposite in="SourceGraphic" in2="clear-result" operator="atop"/>
+        </filter>
+    </svg>
+
+    <div class="shimmer-bg"></div>
+
+    <div id="intro-container">
+        Historic Mesa<span class="subtitle">– Dine Schedule –</span>
+    </div>
+
+    <div id="schedule-interface">
+        <h2>Your Mesa Dining Schedule</h2>
+        <p>Welcome to your meticulously planned culinary journey through Historic Mesa! Below are your reserved dining experiences for the upcoming days.</p>
+        <ul>
+            <li>**Tuesday, July 22:** "The Oasis Grill" - 7:00 PM (Farm-to-Table)</li>
+            <li>**Wednesday, July 23:** "Cactus Bloom Cafe" - 12:30 PM (Brunch & Local Brews)</li>
+            <li>**Thursday, July 24:** "Desert Fire Bistro" - 6:30 PM (Southwestern Fusion)</li>
+            <li>**Friday, July 25:** "Agave Nectar Cantina" - 8:00 PM (Authentic Mexican)</li>
+        </ul>
+        <p>Enjoy your exquisite dining experience!</p>
+        </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const introContainer = document.getElementById('intro-container');
+            const scheduleInterface = document.getElementById('schedule-interface');
+
+            // Phase 1: Reveal opacity, then add distorting class
+            setTimeout(() => {
+                introContainer.classList.add('revealing'); // Fade in opacity
+            }, 100); // A small delay to ensure initial opacity is 0
+
+            // Phase 2: Apply distortion and animate it out
+            setTimeout(() => {
+                introContainer.classList.add('distorting');
+            }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--intro-text-reveal-delay')) * 1000);
+
+            // Phase 3: Text fades out and shrinks
+            setTimeout(() => {
+                introContainer.classList.remove('distorting'); // Ensure distortion is gone
+                introContainer.classList.add('fade-out');
+            }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--intro-fade-out-delay')) * 1000);
+
+            // Phase 4: Reveal the schedule interface
+            setTimeout(() => {
+                introContainer.style.display = 'none'; // Completely remove intro
+                scheduleInterface.classList.add('reveal');
+                document.body.style.overflow = 'auto'; // Re-enable scrolling for schedule
+            }, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--schedule-reveal-delay')) * 1000);
+        });
+    </script>
+</body>
+</html>
