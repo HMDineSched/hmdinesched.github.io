@@ -1,0 +1,417 @@
+/* General Body and Container Styling */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif; /* Civic Humanist Sans */
+    background-color: #0b132b; /* Midnight Blue from Solar Circuit, as a deep background */
+    color: #f9f5ec; /* Bone White */
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for longer content */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1400px;
+    gap: 20px;
+}
+
+/* Header Styling */
+.dashboard-header {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #2f1e4c, #1a1a1a); /* Deep violet to Ink black */
+    border-radius: 15px;
+    border: 1px solid #b87437; /* Copper accent */
+    box-shadow: 0 0 30px rgba(78, 240, 211, 0.3); /* Bio-luminescent teal glow */
+    margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+    font-family: 'Cinzel', serif; /* Runic Display / Mystic */
+    color: #ffc857; /* Solar gold for prominence */
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(255, 200, 87, 0.7);
+}
+
+.dashboard-header p {
+    font-family: 'IBM Plex Mono', monospace; /* Serif Mystic Monospace / Gothic Terminal */
+    color: #4ef0d3; /* Bio-luminescent teal */
+    font-size: 1.1em;
+}
+
+/* Main Dashboard Layout */
+.main-dashboard {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.sidebar {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.central-area {
+    flex: 3;
+    min-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Panel Base Styling (Cyber-Baroque Civic Dashboard) */
+.panel {
+    background: linear-gradient(145deg, #1a1a1a, #2f1e4c); /* Ink black to Deep violet */
+    border: 1px solid #b87437; /* Copper accent */
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(184, 116, 55, 0.2);
+    position: relative;
+    overflow: hidden; /* For pseudo-element filigree */
+}
+
+.panel h2 {
+    font-family: 'Cinzel', serif;
+    color: #ffc857; /* Solar gold */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    text-shadow: 0 0 10px rgba(255, 200, 87, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel .glyph {
+    font-size: 1.2em;
+    color: #4ef0d3; /* Bio-luminescent teal */
+}
+
+/* Solarpunk Intelligence Terminal / Ritual Tech Interface elements */
+.data-module, .map-tile, .scroll-item {
+    background-color: rgba(69, 90, 100, 0.1); /* Off-glass transparent layer */
+    border: 1px solid rgba(78, 240, 211, 0.3); /* Bio-luminescent teal light border */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.data-module:hover, .map-tile:hover, .scroll-item:hover {
+    background-color: rgba(78, 240, 211, 0.08); /* Soft glow on hover */
+    border-color: #4ef0d3;
+    box-shadow: 0 0 15px rgba(78, 240, 211, 0.5);
+    transform: translateY(-3px); /* Gentle lift */
+}
+
+/* Data reveals with soft light (wisdom layers) */
+.wisdom-layer {
+    font-size: 0.9em;
+    color: #e0fbfc; /* Off-glass for clarity */
+    margin-top: 10px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+}
+
+.data-module:hover .wisdom-layer {
+    opacity: 1;
+    max-height: 50px; /* Adjust as needed */
+}
+
+
+/* Ostromian Codex UI */
+.codex-panel {
+    background: linear-gradient(145deg, #1a1a1a, #2f1e4c);
+    border: 1px solid #b87437;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(184, 116, 55, 0.2);
+}
+
+.codex-scrolls {
+    margin-bottom: 20px;
+}
+
+.scroll-item {
+    cursor: pointer;
+    background-color: rgba(246, 241, 230, 0.05); /* Parchment beige hint */
+    border: 1px solid rgba(184, 116, 55, 0.2); /* Copper subtle border */
+    margin-bottom: 10px;
+}
+
+.scroll-item h3 {
+    font-family: 'Cinzel', serif;
+    color: #ffc857;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+}
+
+.scroll-item p {
+    font-size: 0.95em;
+    color: #f9f5ec;
+    margin-top: 10px;
+    opacity: 0.7;
+    display: none; /* Hidden by default */
+}
+
+.scroll-item.active {
+    background-color: rgba(184, 116, 55, 0.1); /* Active scroll slightly more prominent */
+    border-color: #b87437;
+    box-shadow: 0 0 10px rgba(184, 116, 55, 0.4);
+}
+
+.scroll-item.active p {
+    display: block; /* Show content when active */
+}
+
+.steward-points {
+    font-family: 'IBM Plex Mono', monospace;
+    color: #e0fbfc;
+    font-size: 1.1em;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#stewardPoints {
+    color: #4ef0d3;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* Buttons pulse gently, like breathing */
+.pulse-button, .reveal-button {
+    background-color: #65a665; /* Verdant green */
+    color: #0b132b; /* Midnight blue text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.pulse-button:hover, .reveal-button:hover {
+    background-color: #7ab87a;
+    box-shadow: 0 0 15px rgba(101, 166, 101, 0.6);
+    animation: none; /* Stop pulsing on hover */
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(101, 166, 101, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(101, 166, 101, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(101, 166, 101, 0); }
+}
+
+
+/* Civic Activity Log */
+.activity-log-panel {
+    min-height: 250px; /* Ensure visibility */
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-log {
+    flex-grow: 1;
+    overflow-y: auto; /* Enable scrolling for logs */
+    max-height: 200px; /* Limit height for scroll effect */
+    border: 1px solid rgba(159, 164, 169, 0.2); /* Soft ether gray subtle border */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #b87437 #2f1e4c; /* Thumb and track */
+}
+
+.activity-log::-webkit-scrollbar {
+    width: 8px;
+}
+
+.activity-log::-webkit-scrollbar-track {
+    background: #2f1e4c;
+    border-radius: 10px;
+}
+
+.activity-log::-webkit-scrollbar-thumb {
+    background-color: #b87437;
+    border-radius: 10px;
+    border: 2px solid #2f1e4c;
+}
+
+.activity-entry {
+    background-color: rgba(47, 30, 76, 0.4); /* Deep violet transparent */
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #f9f5ec;
+    opacity: 0; /* Initially hidden for animation */
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.activity-entry.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Federated Intelligence Map Shrine */
+.map-shrine {
+    text-align: center;
+}
+
+.map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.map-tile {
+    background: linear-gradient(135deg, rgba(18, 25, 38, 0.7), rgba(47, 30, 76, 0.7)); /* Darker transparent blend */
+    border: 2px solid rgba(78, 240, 211, 0.4); /* Bio-luminescent teal subtle outline */
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #4ef0d3; /* Bio-luminescent teal */
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(78, 240, 211, 0.2);
+}
+
+.map-tile:hover {
+    background: linear-gradient(135deg, rgba(18, 25, 38, 0.9), rgba(47, 30, 76, 0.9));
+    border-color: #4ef0d3;
+    box-shadow: 0 0 20px rgba(78, 240, 211, 0.6);
+    transform: scale(1.05); /* Enchanted tablet effect */
+}
+
+/* Local Intelligence Guild Dashboard */
+.civic-data-dashboard {
+    background: linear-gradient(145deg, #2f1e4c, #1a1a1a);
+}
+
+.data-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.data-module h3 {
+    font-family: 'Cinzel', serif;
+    color: #ffc857;
+    margin-top: 0;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.data-module p {
+    color: #f9f5ec;
+    font-size: 1em;
+}
+
+/* Drag-and-drop "data runes" */
+.data-runes-area h3 {
+    font-family: 'Cinzel', serif;
+    color: #ffc857;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.data-runes-container {
+    background-color: rgba(159, 164, 169, 0.05); /* Soft ether gray transparent */
+    border: 1px dashed rgba(159, 164, 169, 0.3);
+    border-radius: 8px;
+    min-height: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.data-runes-container.drag-over {
+    background-color: rgba(101, 166, 101, 0.1); /* Verdant green hint on drag over */
+    border-color: #65a665;
+}
+
+.data-rune {
+    background-color: rgba(184, 116, 55, 0.5); /* Copper transparent */
+    color: #f9f5ec;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: grab;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(184, 116, 55, 0.3);
+}
+
+.data-rune:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-dashboard {
+        flex-direction: column;
+    }
+
+    .sidebar, .central-area {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-header h1 {
+        font-size: 2em;
+    }
+
+    .panel {
+        padding: 15px;
+    }
+
+    .data-modules {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Utility classes for JS */
+.hidden {
+    display: none;
+}
