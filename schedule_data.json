@@ -1,5 +1,821 @@
-{
-  "last_updated": "2026-01-18 23:27:46",
-  "total_entries": 0,
-  "schedule": []
-}
+[
+  {
+    "location": "East",
+    "name": "Jerry LEAD",
+    "date": "2025-08-05",
+    "time": "10a-close",
+    "role": "Host"
+  },
+  {
+    "location": "East",
+    "name": "Jerry LEAD",
+    "date": "2025-08-06",
+    "time": "10a-close",
+    "role": "Host"
+  },
+  {
+    "location": "East",
+    "name": "Jerry LEAD",
+    "date": "2025-08-07",
+    "time": "10a-close",
+    "role": "Host"
+  },
+  {
+    "location": "East",
+    "name": "Jerry LEAD",
+    "date": "2025-08-08",
+    "time": "10a-close",
+    "role": "Host"
+  },
+  {
+    "location": "East",
+    "name": "Jerry LEAD",
+    "date": "2025-08-09",
+    "time": "7a-close",
+    "role": "Host"
+  },
+  {
+    "location": "East",
+    "name": "Melissa",
+    "date": "2025-08-03",
+    "time": "11a-4p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Melissa",
+    "date": "2025-08-04",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Melissa",
+    "date": "2025-08-07",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Melissa",
+    "date": "2025-08-08",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Ellie",
+    "date": "2025-08-03",
+    "time": "11a-4p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Ellie",
+    "date": "2025-08-04",
+    "time": "11a-6p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Ellie",
+    "date": "2025-08-05",
+    "time": "11a-6p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Ellie",
+    "date": "2025-08-06",
+    "time": "11a-6p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Ellie",
+    "date": "2025-08-09",
+    "time": "11a-6p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Maria",
+    "date": "2025-08-04",
+    "time": "6:30a-3p",
+    "role": "Togos"
+  },
+  {
+    "location": "East",
+    "name": "Maria",
+    "date": "2025-08-05",
+    "time": "6:30a-3p",
+    "role": "Togos"
+  },
+  {
+    "location": "East",
+    "name": "Maria",
+    "date": "2025-08-06",
+    "time": "6:30a-3p",
+    "role": "Togos"
+  },
+  {
+    "location": "East",
+    "name": "Maria",
+    "date": "2025-08-07",
+    "time": "6:30a-3p",
+    "role": "Togos"
+  },
+  {
+    "location": "East",
+    "name": "Maria",
+    "date": "2025-08-08",
+    "time": "6:30a-3p",
+    "role": "Togos"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-03",
+    "time": "6:30a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-04",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-05",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-06",
+    "time": "6:30a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-08",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Keegan",
+    "date": "2025-08-09",
+    "time": "6:30a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Donna",
+    "date": "2025-08-04",
+    "time": "6a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Donna",
+    "date": "2025-08-05",
+    "time": "6a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Donna",
+    "date": "2025-08-06",
+    "time": "6a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Donna",
+    "date": "2025-08-07",
+    "time": "6a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Donna",
+    "date": "2025-08-08",
+    "time": "6a-10a",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Kristen",
+    "date": "2025-08-03",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Kristen",
+    "date": "2025-08-06",
+    "time": "11a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Kristen",
+    "date": "2025-08-07",
+    "time": "11a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Kristen",
+    "date": "2025-08-08",
+    "time": "11a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Jaiden",
+    "date": "2025-08-03",
+    "time": "10a-close",
+    "role": "Deliveries"
+  },
+  {
+    "location": "East",
+    "name": "Jaiden",
+    "date": "2025-08-03",
+    "time": "10a-close",
+    "role": "Expo"
+  },
+  {
+    "location": "Oasis",
+    "name": "Jaiden",
+    "date": "2025-08-06",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Jaiden",
+    "date": "2025-08-09",
+    "time": "10a-close",
+    "role": "Deliveries"
+  },
+  {
+    "location": "East",
+    "name": "Jaiden",
+    "date": "2025-08-09",
+    "time": "10a-close",
+    "role": "Expo"
+  },
+  {
+    "location": "Oasis",
+    "name": "Elijah/ Busser",
+    "date": "2025-08-03",
+    "time": "10a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Elijah/ Busser",
+    "date": "2025-08-06",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Elijah/ Busser",
+    "date": "2025-08-07",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Marcial",
+    "date": "2025-08-03",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "Marcial",
+    "date": "2025-08-06",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-04",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-05",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-06",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-07",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-08",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Megan",
+    "date": "2025-08-09",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "Oasis",
+    "name": "December",
+    "date": "2025-08-04",
+    "time": "10a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "December",
+    "date": "2025-08-05",
+    "time": "10a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "December",
+    "date": "2025-08-07",
+    "time": "2p-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "December",
+    "date": "2025-08-08",
+    "time": "10a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "December",
+    "date": "2025-08-09",
+    "time": "10a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Lisa",
+    "date": "2025-08-03",
+    "time": "7a-4p",
+    "role": "Breakfast Host"
+  },
+  {
+    "location": "East",
+    "name": "Lisa",
+    "date": "2025-08-04",
+    "time": "7a-6p",
+    "role": "Breakfast Host"
+  },
+  {
+    "location": "West/Grand",
+    "name": "Lisa",
+    "date": "2025-08-05",
+    "time": "7a-3p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Lisa",
+    "date": "2025-08-06",
+    "time": "7a-close",
+    "role": "Breakfast Expo"
+  },
+  {
+    "location": "East",
+    "name": "Lisa",
+    "date": "2025-08-07",
+    "time": "11a-6p",
+    "role": "Expo"
+  },
+  {
+    "location": "East",
+    "name": "Brandon",
+    "date": "2025-08-05",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Brandon",
+    "date": "2025-08-07",
+    "time": "7a-6p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "East",
+    "name": "Brandon",
+    "date": "2025-08-07",
+    "time": "7a-6p",
+    "role": "Busser"
+  },
+  {
+    "location": "East",
+    "name": "Brandon",
+    "date": "2025-08-08",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Brandon",
+    "date": "2025-08-09",
+    "time": "7a-6p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "West/Grand",
+    "name": "Ana",
+    "date": "2025-08-05",
+    "time": "10:30a-2:30p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Ana",
+    "date": "2025-08-06",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Ana",
+    "date": "2025-08-07",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Ana",
+    "date": "2025-08-08",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Ana",
+    "date": "2025-08-09",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nate",
+    "date": "2025-08-03",
+    "time": "7a-4p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "East",
+    "name": "Nate",
+    "date": "2025-08-04",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nate",
+    "date": "2025-08-05",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nate",
+    "date": "2025-08-08",
+    "time": "7a-close",
+    "role": "Breakfast Busser"
+  },
+  {
+    "location": "East",
+    "name": "Nate",
+    "date": "2025-08-09",
+    "time": "7a-close",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-03",
+    "time": "11a-4p",
+    "role": "Togos"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-04",
+    "time": "11a-6p",
+    "role": "Expo"
+  },
+  {
+    "location": "West/Grand",
+    "name": "Victoria",
+    "date": "2025-08-05",
+    "time": "10a-2p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-05",
+    "time": "10a-2p",
+    "role": "Expo"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-06",
+    "time": "11a-close",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-07",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Victoria",
+    "date": "2025-08-08",
+    "time": "11a-6p",
+    "role": "Expo"
+  },
+  {
+    "location": "East",
+    "name": "Nicco",
+    "date": "2025-08-03",
+    "time": "11a-4p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nicco",
+    "date": "2025-08-05",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nicco",
+    "date": "2025-08-06",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "Nicco",
+    "date": "2025-08-09",
+    "time": "11a-6p",
+    "role": "Server"
+  },
+  {
+    "location": "East",
+    "name": "TEMP FILL IN",
+    "date": "2025-08-03",
+    "time": "7a-4p",
+    "role": "Server"
+  },
+  {
+    "location": "Kitchen",
+    "name": "TEMP FILL IN",
+    "date": "2025-08-03",
+    "time": "7a-4p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "TEMP FILL IN",
+    "date": "2025-08-09",
+    "time": "tbd",
+    "role": "Togos"
+  },
+  {
+    "location": "Kitchen",
+    "name": "TEMP FILL IN",
+    "date": "2025-08-09",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "AL",
+    "date": "2025-08-04",
+    "time": "8a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "AL",
+    "date": "2025-08-05",
+    "time": "8a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "AL",
+    "date": "2025-08-06",
+    "time": "8a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "AL",
+    "date": "2025-08-07",
+    "time": "8a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "AL",
+    "date": "2025-08-08",
+    "time": "8a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "ABEL",
+    "date": "2025-08-03",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "ABEL",
+    "date": "2025-08-04",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "ABEL",
+    "date": "2025-08-05",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "ABEL",
+    "date": "2025-08-08",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "Oasis",
+    "name": "ABEL",
+    "date": "2025-08-09",
+    "time": "tbd",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "CRYSTAL",
+    "date": "2025-08-04",
+    "time": "7a-4p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "East",
+    "name": "CRYSTAL",
+    "date": "2025-08-05",
+    "time": "7a-3p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "West/Grand",
+    "name": "CRYSTAL",
+    "date": "2025-08-05",
+    "time": "7a-3p",
+    "role": "N/A"
+  },
+  {
+    "location": "East",
+    "name": "CRYSTAL",
+    "date": "2025-08-07",
+    "time": "7a-4p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "East",
+    "name": "CRYSTAL",
+    "date": "2025-08-08",
+    "time": "7a-4p",
+    "role": "Breakfast Server"
+  },
+  {
+    "location": "Kitchen",
+    "name": "DJ",
+    "date": "2025-08-03",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "DJ",
+    "date": "2025-08-04",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "DJ",
+    "date": "2025-08-05",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "DJ",
+    "date": "2025-08-06",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "DJ",
+    "date": "2025-08-07",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-03",
+    "time": "9a-4p",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-04",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-05",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-06",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "TBD",
+    "name": "ANGEL COOK",
+    "date": "2025-08-07",
+    "time": "tbd",
+    "role": "TBD"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-08",
+    "time": "9a-close",
+    "role": "N/A"
+  },
+  {
+    "location": "Kitchen",
+    "name": "ANGEL COOK",
+    "date": "2025-08-09",
+    "time": "9a-close",
+    "role": "N/A"
+  }
+]
