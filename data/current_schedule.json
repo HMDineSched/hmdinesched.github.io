@@ -1,5 +1,8 @@
-[
-  {
+{
+  "last_updated": "2026-01-20 10:45:00",
+  "total_entries": 10,
+  "schedule": [
+    {
     "location": "East",
     "name": "Jerry LEAD",
     "date": "2025-08-05",
@@ -818,4 +821,5 @@
     "time": "9a-close",
     "role": "N/A"
   }
-]
+  ]
+}
