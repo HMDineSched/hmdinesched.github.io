@@ -102,6 +102,7 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
+            border-top: 1px solid rgba(255, 0, 255, 0.2);
         }
 
         .control-group {
@@ -142,6 +143,12 @@
             border-color: #00ffff;
         }
 
+        /* Color scheme for date input */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
         /* QUICK VIEW */
         .quick-view {
             padding: 30px;
@@ -168,15 +175,20 @@
             font-size: 0.9rem;
         }
 
+        .quick-view li:last-child {
+            border-bottom: none;
+        }
+
         /* TABLES */
         .tables-container {
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 40px;
         }
 
         caption {
@@ -190,8 +202,11 @@
             font-weight: 700;
         }
 
-        th {
+        thead tr {
             background: linear-gradient(135deg, #ff00ff, #8a2be2);
+        }
+
+        th {
             color: white;
             padding: 15px;
             text-align: left;
@@ -206,8 +221,15 @@
             color: #ffffff;
         }
 
-        tr:hover {
+        tbody tr:hover {
             background: rgba(255, 0, 255, 0.1);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #00ffff;
+            font-size: 1.2rem;
         }
 
         @media (max-width: 768px) {
@@ -238,7 +260,7 @@
             <div class="header">
                 <h1>HM DINE</h1>
                 <div class="week-label" id="week-label">SCHEDULE LOADING...</div>
-                <div class="timestamp" id="timestamp">SYSTEM INITIALIZING...</div>
+                <div class="timestamp" id="timestamp">SYSTEM ERROR</div>
             </div>
 
             <div class="controls" id="controls">
@@ -279,20 +301,27 @@
             starfield.appendChild(star);
         }
 
+        // Global variables
         let scheduleData = [];
         const oneDayMs = 24 * 60 * 60 * 1000;
 
         /**
-         * Initializes the date and location selection controls based on the fetched schedule data.
+         * Initializes the date and location selection controls
          */
         function initControls() {
             const datePicker = document.getElementById("date-picker");
             const locationSelect = document.getElementById("location-select");
 
-            // Populate Date Picker
+            if (!scheduleData.length) {
+                console.warn("No schedule data to initialize controls");
+                return;
+            }
+
+            // Sort by date
             scheduleData.sort((a, b) => new Date(a.date) - new Date(b.date));
             const allDates = [...new Set(scheduleData.map(item => item.date))];
 
+            // Populate date picker
             datePicker.innerHTML = "";
             allDates.forEach(date => {
                 const option = document.createElement("option");
@@ -301,7 +330,7 @@
                 datePicker.appendChild(option);
             });
 
-            // Set default date
+            // Set default date (today or first available)
             const today = new Date();
             const todayString = today.getFullYear() + '-' +
                               String(today.getMonth() + 1).padStart(2, '0') + '-' +
@@ -315,7 +344,7 @@
 
             datePicker.addEventListener("change", generateSchedule);
 
-            // Populate Location Select
+            // Populate location select
             const locationSet = new Set(scheduleData.map(item => item.location));
             locationSelect.innerHTML = "";
             locationSet.forEach(loc => {
@@ -332,7 +361,7 @@
         }
 
         /**
-         * Groups schedule data by location for a given date.
+         * Groups schedule data by location for a given date
          */
         function getGroupedScheduleFor(date) {
             const grouped = {};
@@ -352,7 +381,7 @@
         }
 
         /**
-         * Generates and displays the schedule based on the selected date and location.
+         * Generates and displays the schedule
          */
         function generateSchedule() {
             const datePicker = document.getElementById("date-picker");
@@ -365,7 +394,7 @@
             const quickViewList = document.getElementById("quick-view-list");
             const tablesContainer = document.getElementById("tables-container");
 
-            // Relative Date Indicator Logic
+            // Relative date logic
             const now = new Date();
             const todayUtcMidnight = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
@@ -407,7 +436,7 @@
             quickViewList.innerHTML = "";
             tablesContainer.innerHTML = "";
 
-            // Populate Quick View for Selected Location
+            // Populate Quick View
             if (groupedData[selectedLocation] && groupedData[selectedLocation].length > 0) {
                 groupedData[selectedLocation].forEach(({ name, role, shifts }) => {
                     const li = document.createElement("li");
@@ -418,15 +447,13 @@
                 quickViewList.innerHTML = "<li>No shifts for the selected location on this date.</li>";
             }
 
-            // Generate Tables for All Locations
+            // Generate tables for all locations
             const sortedLocations = Object.keys(groupedData).sort();
 
             if (sortedLocations.length === 0) {
                 const panel = document.createElement("div");
                 panel.className = "ethereal-panel";
-                panel.style.padding = "40px";
-                panel.style.textAlign = "center";
-                panel.innerHTML = "<p>NO SCHEDULE DATA AVAILABLE FOR THE SELECTED DATE.</p>";
+                panel.innerHTML = '<div class="no-data">NO SCHEDULE DATA AVAILABLE FOR THE SELECTED DATE.</div>';
                 tablesContainer.appendChild(panel);
                 return;
             }
@@ -462,57 +489,56 @@
             });
         }
 
-        // Initial data fetch and setup
+        // Load data on page load
         document.addEventListener('DOMContentLoaded', () => {
             const timestampEl = document.getElementById('timestamp');
             
-            fetch('schedule.json')
+            fetch('data/current_schedule.json')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
-                .then(fileNames => {
-                    const fetchPromises = fileNames.map(fileName =>
-                        fetch(fileName)
-                            .then(res => {
-                                if (!res.ok) {
-                                    throw new Error(`HTTP error! status: ${res.status} for file: ${fileName}`);
-                                }
-                                return res.json();
-                            })
-                            .catch(err => {
-                                console.error(`Error fetching ${fileName}:`, err);
-                                return [];
-                            })
-                    );
-                    return Promise.all(fetchPromises);
-                })
-                .then(allSchedules => {
-                    scheduleData = allSchedules.flat();
+                .then(data => {
+                    console.log('Schedule data loaded:', data);
+                    
+                    // Extract schedule array from the data structure
+                    if (data.schedule && Array.isArray(data.schedule)) {
+                        scheduleData = data.schedule;
+                    } else {
+                        throw new Error('Invalid data structure: missing schedule array');
+                    }
                     
                     // Update timestamp
-                    const now = new Date();
-                    const timestamp = now.toLocaleString('en-US', { 
-                        timeZone: 'America/Phoenix',
-                        month: '2-digit',
-                        day: '2-digit',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
-                    });
-                    timestampEl.textContent = `SYSTEM ONLINE // ${timestamp}`;
+                    if (data.last_updated) {
+                        timestampEl.textContent = `LOG_DECODED: ${data.last_updated}`;
+                    } else {
+                        const now = new Date();
+                        const timestamp = now.toLocaleString('en-US', { 
+                            timeZone: 'America/Phoenix',
+                            month: '2-digit',
+                            day: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                        });
+                        timestampEl.textContent = `SYSTEM ONLINE // ${timestamp}`;
+                    }
                     
                     initControls();
                     generateSchedule();
                 })
                 .catch(err => {
-                    console.error('Error in fetching or processing schedule files:', err);
+                    console.error('Error loading schedule:', err);
                     document.getElementById('tables-container').innerHTML = 
-                        '<div class="ethereal-panel" style="padding: 40px; text-align: center;"><p>⚠️ ERROR LOADING SCHEDULE DATA. PLEASE TRY AGAIN LATER.</p></div>';
+                        '<div class="ethereal-panel"><div class="no-data">⚠️ ERROR LOADING SCHEDULE DATA<br>PLEASE TRY AGAIN LATER</div></div>';
                     timestampEl.textContent = 'SYSTEM ERROR';
+                    
+                    // Show error in quick view
+                    document.getElementById('quick-view-list').innerHTML = 
+                        '<li style="color: #ff00ff;">Error: Unable to load schedule data</li>';
                 });
         });
     </script>
